@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // User exists, set session variables
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $user;
-        header("Location: users.php"); // Redirect to a welcome page
+        header("Location: user.php"); // Redirect to a welcome page
     } else {
         $error = "Invalid username or password.";
     }
