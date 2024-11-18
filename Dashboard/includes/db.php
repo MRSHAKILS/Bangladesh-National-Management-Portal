@@ -1,14 +1,22 @@
 <?php  
-$servername = "localhost"; 
-$username = "root"; 
-$password = ""; 
-$conn = new mysqli($servername, $username, $password); 
+
+
+function connect() {
+    $servername = "localhost"; 
+    $username = "root"; 
+    $password = ""; 
+    $database = "shakil";
+    $conn = new mysqli($servername, $username, $password, $database); 
+
+    // Check connection 
+    if ($conn->connect_error) { 
+        die("Connection failure: " 
+            . $conn->connect_error); 
+    }
+    
+    return $conn;
+}
   
-// Check connection 
-if ($conn->connect_error) { 
-    die("Connection failure: " 
-        . $conn->connect_error); 
-}  
   
 // Creating a database named geekdata 
 // $sql = "CREATE DATABASE geekdata"; 
@@ -19,5 +27,5 @@ if ($conn->connect_error) {
 // } 
   
 // Closing connection 
-$conn->close(); 
+// $conn->close(); 
 ?> 
