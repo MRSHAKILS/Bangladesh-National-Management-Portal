@@ -6,7 +6,7 @@ session_start();
 $servername = "localhost"; // Change to your database server if needed
 $username = "root";        // Your database username
 $password = "";            // Your database password
-$dbname = "bmnp";          // Your database name
+$dbname = "bdportal";          // Your database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

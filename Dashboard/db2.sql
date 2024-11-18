@@ -10,7 +10,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `bmnp`
+-- Database: `bdportal`
 --
 
 -- --------------------------------------------------------
@@ -20,8 +20,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `citizen` (
-  `CitizenID` int(11) NOT NULL,
-  `UserID` int(11) NOT NULL,
+  `CitizenID` int(12) NOT NULL,
+  `UserID` int(12) NOT NULL,
   `FullName` varchar(100) DEFAULT NULL,
   `DateOfBirth` date DEFAULT NULL,
   `Nationality` varchar(50) DEFAULT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE `citizen` (
   `addressPresent` varchar(255) DEFAULT NULL,
   `addressPermanent` varchar(255) DEFAULT NULL,
   `ContactInfo` varchar(100) DEFAULT NULL,
-  `Age` int(11) DEFAULT NULL
+  `Age` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -71,7 +71,7 @@ CREATE TABLE `completedrequest` (
 
 CREATE TABLE `expat` (
   `ExpatID` int(11) NOT NULL,
-  `UserID` int(11) NOT NULL,
+  `UserID` int(12) NOT NULL,
   `VisaType` varchar(50) DEFAULT NULL,
   `WorkPermitStatus` varchar(50) DEFAULT NULL,
   `ExpectedDepartureDate` date DEFAULT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE `governmentdepartment` (
 
 CREATE TABLE `governmentofficial` (
   `OfficialID` int(11) NOT NULL,
-  `UserID` int(11) NOT NULL,
+  `UserID` int(12) NOT NULL,
   `EmploymentType` varchar(50) DEFAULT NULL,
   `DateOfAppointment` date DEFAULT NULL,
   `Rank` varchar(50) DEFAULT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE `governmentofficial` (
 
 CREATE TABLE `nid_card` (
   `NID` int(11) NOT NULL,
-  `CitizenID` int(11) NOT NULL,
+  `CitizenID` int(12) NOT NULL,
   `FathersName` varchar(100) DEFAULT NULL,
   `MothersName` varchar(100) DEFAULT NULL,
   `DateOfIssue` date DEFAULT NULL,
@@ -141,7 +141,7 @@ CREATE TABLE `nid_card` (
 
 CREATE TABLE `notifications` (
   `NotificationID` int(11) NOT NULL,
-  `UserID` int(11) NOT NULL,
+  `UserID` int(12) NOT NULL,
   `Message` text DEFAULT NULL,
   `NotificationType` varchar(50) DEFAULT NULL,
   `DateSent` date DEFAULT NULL
@@ -184,7 +184,7 @@ CREATE TABLE `servicefeedback` (
 
 CREATE TABLE `servicerequest` (
   `RequestID` int(11) NOT NULL,
-  `CitizenID` int(11) NOT NULL,
+  `CitizenID` int(12) NOT NULL,
   `ServiceID` int(11) NOT NULL,
   `RequestStatus` varchar(50) DEFAULT NULL,
   `RequestDescription` text DEFAULT NULL,
@@ -214,7 +214,7 @@ CREATE TABLE `services` (
 --
 
 CREATE TABLE `users` (
-  `UserID` int(11) NOT NULL,
+  `UserID` int(12) NOT NULL,
   `FullName` varchar(100) NOT NULL,
   `Username` varchar(50) NOT NULL,
   `Password` varchar(255) NOT NULL,
@@ -227,8 +227,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UserID`, `FullName`, `Username`, `Password`, `Email`, `NotificationPreferences`) VALUES
-(4, 'Iftikhar Ahmed', 'ninjaifti', 'ifti3061', 'ifti3061@gmail.com', NULL),
-(6, 'xD', 'admin', 'admin', 'ishti2121@yahoo.com', NULL);
+(1, 'John Doe', 'johndoe', 'johndoe', 'johndoe@mail.com', NULL),
+(2, 'Jane Doe', 'janedoe', 'janedoe', 'janedoe@mail.com', NULL),
+(3, 'Alice', 'alice', 'alice', 'alice@mail.com', NULL),
+(4, 'Bob', 'bob', 'bob', 'bob@mail.com', NULL),
+(5, 'Charlie', 'charlie', 'charlie', 'charlie@mail.com', NULL),
+(6, 'David', 'david', 'david', 'david@mail.com', NULL);
 
 --
 -- Indexes for dumped tables
