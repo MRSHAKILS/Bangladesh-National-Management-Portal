@@ -220,7 +220,7 @@ require_once('includes/db.php');
             <div class="logo">
                 <img src="img/BD_govt_logo.png" alt="National Logo">
             </div>
-            <a class="btn" href="user.php">Portal</a>
+            <a class="btn" href="signup.php">Portal</a>
 
             <nav class="navbar">
                 <div class="hamburger" onclick="toggleMenu()">
