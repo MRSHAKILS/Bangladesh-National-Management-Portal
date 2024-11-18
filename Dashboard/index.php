@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Web Page</title>
+  <title>Bangladesh National Managment Portal</title>
   <style>
     /* Basic Reset */
     * {
@@ -20,7 +20,7 @@
 
     /* Header and Navigation */
     .header {
-      background-color: #333;
+      background-color: #f04;
       position: sticky;
       top: 0;
       z-index: 1000;
@@ -80,7 +80,7 @@
     /* Hero Section */
     .hero {
       height: 100vh;
-      background: url('img/scene2.jpg') no-repeat center center/cover;
+      background: url('img/bd_bg.jpg') no-repeat center center/cover;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -207,7 +207,7 @@
   <!-- Header Section -->
   <header class="header">
     <nav class="navbar">
-      <a href="#" class="logo">Natinal Management portal</a>
+      <a href="#" class="logo">Bangladesh National Management portal</a>
       <!-- Checkbox input for hamburger menu toggle -->
       <input type="checkbox" id="menu-toggle">
       <label for="menu-toggle" class="hamburger">
@@ -220,6 +220,8 @@
         <li><a href="#services">Services</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="#about">About</a></li>
+        <li><a href="login.php">Login</a></li>
+
       </ul>
     </nav>
   </header>
@@ -231,6 +233,7 @@
       <div class="hero-content">
         <h1>Welcome to the Bangladesh Natinal Management portal</h1>
         <a href="#" class="cta-button">Get Started</a>
+        <a href="#" class="cta-button">Login/SignUp</a>
       </div>
     </section>
 
