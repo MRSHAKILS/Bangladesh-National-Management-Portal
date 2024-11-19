@@ -168,6 +168,52 @@
                 justify-content: center; /* Center the button on smaller screens */
             }
         }
+
+        /* Review Button */
+        .rbutton {
+            cursor: pointer;
+            position: relative;
+            padding: 10px 24px;
+            font-size: 18px;
+            color: rgb(193, 163, 98);
+            border: 2px solid rgb(193, 163, 98);
+            border-radius: 34px;
+            background-color: transparent;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+            overflow: hidden;
+        }
+
+        .rbutton::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 50px;
+            height: 50px;
+            border-radius: inherit;
+            scale: 0;
+            z-index: -1;
+            background-color: rgb(193, 163, 98);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+
+       .rbutton:hover::before {
+            scale: 3;
+        }
+
+        .rbutton:hover {
+            color: #212121;
+            scale: 1.1;
+            box-shadow: 0 0px 20px rgba(193, 163, 98,0.4);
+        }
+
+        .rbutton:active {
+            scale: 1;
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -202,21 +248,21 @@
                     <td>Passport Renewal</td>
                     <td>Immigration</td>
                     <td>In Progress</td>
-                    <td><button>Review</button></td>
+                    <td><button class="rbutton">Review</button></td>
                 </tr>
                 <tr>
                     <td>002</td>
                     <td>Driving License</td>
                     <td>Transport</td>
                     <td>Pending</td>
-                    <td><button>Review</button></td>
+                    <td><button class="rbutton">Review</button></td>
                 </tr>
                 <tr>
                     <td>003</td>
                     <td>Citizenship Verification</td>
                     <td>Public Info</td>
                     <td>Completed</td>
-                    <td><button>Review</button></td>
+                    <td><button class="rbutton">Review</button></td>
                 </tr>
                 <!-- Add more rows dynamically as needed -->
             </tbody>
