@@ -132,7 +132,7 @@ require_once('includes/db.php');
 
     <!-- Main Content Section -->
     <main>
-    <?php require_once('includes/department.php'); ?>
+    <?php require_once('includes/departmentCard.php'); ?>
 
         <!-- Service Review Section -->
         <section class="testimonials">
