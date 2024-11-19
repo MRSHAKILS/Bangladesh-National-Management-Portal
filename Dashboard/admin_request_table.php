@@ -32,6 +32,67 @@
         h2 {
             text-align: center;
         }
+
+        .search_container {
+            background: linear-gradient(135deg, #000000, #1c1c1c, #333333); /* Black gradient */
+            display: flex;
+            flex-direction: row;
+            align-items: center; /* Vertically aligns content */
+            justify-content: space-between; /* Positions the items at opposite ends */
+            gap: 1rem;
+            padding: 1rem 2rem; /* Adds some inner spacing */
+            border-radius: 0; /* Smooth corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+            color: #ffffff; /* White text color for readability */
+            margin-bottom: 1.5rem; /* Space below the container */
+        }
+
+        .search_container h1 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-bar input {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            outline: none;
+            font-size: 1rem;
+            color: #333;
+            width: 250px;
+        }
+
+        .search-bar button {
+            background: #EE222A; /* Accent color for the button */
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .search-bar button i {
+            margin-left: 0.5rem;
+            font-size: 1rem;
+        }
         
 
         /* Table styles */
@@ -117,9 +178,16 @@
         <?php require_once('includes/navbar.php'); ?>
     </header>
 
+    <div class="search_container">
+        <h1>Admin Dashboard</h1>
+            <div class="search-bar">
+                <input type="text" placeholder="Search services...">
+                <button><i class="fas fa-search"></i> Search</button>
+            </div>
+    </div>
+
     <!-- Main Content Section -->
     <div class="container">
-        <h2>Admin Dashboard</h2>
         <table class="admin-service-table">
             <thead>
                 <tr>
