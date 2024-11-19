@@ -61,56 +61,30 @@
         /* Submit button styles */
         .submit-btn-container {
             display: flex;
-            justify-content: flex-end; /* Align the button to the bottom-right */
+            justify-content: flex-end; 
+            margin-top: 1rem;
         }
         .submit_btn {
-            font-size: 17px;
-            background: transparent;
-            border: none;
-            padding: .5em 1.5em;
-            color: #000000;
-            text-transform: uppercase;
-            position: relative;
-            transition: 0.5s ease;
+            background: #ffc506;
+            font-family: inherit;
+            padding: 0.6em 1.3em;
+            font-weight: 900;
+            font-size: 18px;
+            border: 3px solid black;
+            border-radius: 0.4em;
+            box-shadow: 0.1em 0.1em;
             cursor: pointer;
         }
 
-        .submit_btn::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            height: 2px;
-            width: 0;
-            background-color: #ffc506;
-            transition: 0.5s ease;
-        }
-
+        
         .submit_btn:hover {
-            color: #1e1e2b;
-            transition-delay: 0.5s;
+            transform: translate(-0.05em, -0.05em);
+            box-shadow: 0.15em 0.15em;
         }
 
-        .submit_btn:hover::before {
-            width: 100%;
-        }
-
-        .submit_btn::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            height: 0;
-            width: 100%;
-            background-color: #ffc506;
-            transition: 0.4s ease;
-            z-index: -1;
-        }
-
-        .submit_btn:hover::after {
-            height: 100%;
-            transition-delay: 0.4s;
-            color: aliceblue;
+        .submit_btn:active {
+            transform: translate(0.05em, 0.05em);
+            box-shadow: 0.05em 0.05em;
         }
 
 
