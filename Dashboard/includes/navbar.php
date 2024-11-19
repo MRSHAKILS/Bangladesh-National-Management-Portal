@@ -3,7 +3,7 @@
     .header {
         background: linear-gradient(90deg, #1e6e1e, #2a7a2a);
         color: #ffffff;
-        padding: 1rem 0;
+        padding: .5rem 0;
     }
 
     .container {
