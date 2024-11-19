@@ -18,10 +18,24 @@
             color: #333;
             
         }
+        /* main container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        h2 {
+            text-align: center;
+        }
         
 
         /* Table styles */
-        .service-table {
+        .admin-service-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 2rem;
@@ -31,46 +45,68 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .service-table th, .service-table td {
+        .admin-service-table th, .admin-service-table td {
             padding: 1rem;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
 
-        .service-table th {
+        .admin-service-table th {
             background-color: #1e6e1e;
             color: #ffffff;
         }
 
-        .service-table tbody tr:hover {
+        .admin-service-table tbody tr:hover {
             background-color: #f0f0f0;
         }
 
-        /* Checkbox styles */
-        .status-checkboxes {
+
+    /* Approve button styles */
+        .Approve-btn-container {
             display: flex;
-            gap: 0.5rem;
-            align-items: center;
+            justify-content: flex-end;
+            margin-top: 1rem;
         }
+        .Approve_btn {
+            background: #EE222A;
+            font-family: inherit;
+            padding: 0.6em 1.3em;
+            font-weight: 900;
+            font-size: 18px;
+            border: 3px solid black;
+            border-radius: 0.4em;
+            box-shadow: 0.1em 0.1em;
+            cursor: pointer;
+            }
+
+        .Approve_btn:hover {
+            transform: translate(-0.05em, -0.05em);
+            box-shadow: 0.15em 0.15em;
+        }
+
+        .Approve_btn:active {
+            transform: translate(0.05em, 0.05em);
+            box-shadow: 0.05em 0.05em;
+        }
+
+
+
+        
 
         /* Responsive styles */
         @media (max-width: 768px) {
-            .navbar ul {
-                display: none;
-            }
-            .hamburger {
-                display: flex;
-                cursor: pointer;
-            }
-            .service-table, .service-table th, .service-table td {
+            .admin-service-table, .admin-service-table th, .admin-service-table td {
                 font-size: 0.9rem;
             }
-            .service-table tbody tr {
+            .admin-service-table tbody tr {
                 display: flex;
                 flex-direction: column;
                 gap: 0.5rem;
                 padding: 1rem;
                 border-bottom: 1px solid #ddd;
+            }
+            .Approve-btn-container {
+                justify-content: center; /* Center the button on smaller screens */
             }
         }
     </style>
@@ -84,11 +120,12 @@
     <!-- Main Content Section -->
     <div class="container">
         <h2>Admin Dashboard</h2>
-        <table class="service-table">
+        <table class="admin-service-table">
             <thead>
                 <tr>
                     <th>Request ID</th>
                     <th>Request Type</th>
+                    <th>Department</th>
                     <th>User ID</th>
                     <th>Request Status</th>
                 </tr>
@@ -98,24 +135,32 @@
                 <tr>
                     <td>001</td>
                     <td>Passport Renewal</td>
+                    <td>Immigration</td>
                     <td>U12345</td>
                     <td>In Progress</td>
                 </tr>
                 <tr>
                     <td>002</td>
                     <td>Driving License</td>
+                    <td>Transport</td>
                     <td>U23456</td>
                     <td>Pending</td>
                 </tr>
                 <tr>
                     <td>003</td>
                     <td>Citizenship Verification</td>
+                    <td>Public Info</td>
                     <td>U34567</td>
                     <td>Completed</td>
                 </tr>
                 <!-- Add more rows dynamically as needed -->
             </tbody>
         </table>
+
+        <!-- Approve Button -->
+        <div class="Approve-btn-container">
+            <button class="Approve_btn">Approve</button>
+        </div>
     </div>
 
 </body>
