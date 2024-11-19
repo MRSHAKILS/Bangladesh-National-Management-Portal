@@ -79,6 +79,32 @@
             background-color: #145014;
         }
 
+        /* Table styles */
+        .user-request-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-request-table th, .user-request-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .user-request-table th {
+            background-color: #1e6e1e;
+            color: #ffffff;
+        }
+
+        .user-request-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
         /* Modal styles */
         .modal {
             display: none;
@@ -125,6 +151,23 @@
         .modal-content button:hover {
             background-color: #145014;
         }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .user-request-table, .user-request-table th, .user-request-table td {
+                font-size: 0.9rem;
+            }
+            .user-request-table tbody tr {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 1rem;
+                border-bottom: 1px solid #ddd;
+            }
+            .Approve-btn-container {
+                justify-content: center; /* Center the button on smaller screens */
+            }
+        }
     </style>
 </head>
 <body>
@@ -141,15 +184,43 @@
             <p><span>Registration Date:</span> 2024-11-01</p>
         </div>
 
-        <div class="user-info">
-            <h1>User Information</h1>
-            <p><span>User ID:</span> 1</p>
-            <p><span>Full Name:</span> John Doe</p>
-            <p><span>Username:</span> john.doe</p>
-            <p><span>Email:</span> john.doe@example.com</p>
-            <p><span>User Role:</span> Citizen</p>
-            <p><span>Notification Preferences:</span> Email, SMS</p>
-            <p><span>Registration Date:</span> 2024-11-01</p>
+        <div class="reque-info">
+        <table class="user-request-table">
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Request Type</th>
+                    <th>Department</th>
+                    <th>Request Status</th>
+                    <th>Leave a review</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Example rows for demonstration -->
+                <tr>
+                    <td>001</td>
+                    <td>Passport Renewal</td>
+                    <td>Immigration</td>
+                    <td>In Progress</td>
+                    <td><button>Review</button></td>
+                </tr>
+                <tr>
+                    <td>002</td>
+                    <td>Driving License</td>
+                    <td>Transport</td>
+                    <td>Pending</td>
+                    <td><button>Review</button></td>
+                </tr>
+                <tr>
+                    <td>003</td>
+                    <td>Citizenship Verification</td>
+                    <td>Public Info</td>
+                    <td>Completed</td>
+                    <td><button>Review</button></td>
+                </tr>
+                <!-- Add more rows dynamically as needed -->
+            </tbody>
+        </table>
         </div>
     </div>
 
