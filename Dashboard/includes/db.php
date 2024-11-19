@@ -5,7 +5,7 @@ function connect() {
     $servername = "localhost"; 
     $username = "root"; 
     $password = ""; 
-    $database = "shakil";
+    $database = "bdportal";
     $conn = new mysqli($servername, $username, $password, $database); 
 
     // Check connection 

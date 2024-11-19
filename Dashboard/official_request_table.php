@@ -16,110 +16,86 @@
         body {
             background-color: #f4f4f4;
             color: #333;
-            padding-top: 70px; /* Space for fixed header */
         }
 
+        /* Main container styles */
         .container {
-            width: 90%;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            align-items: stretch; /* Stretch elements to fill the width */
+            gap: 1.5rem; /* Add spacing between elements */
             max-width: 1200px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            
+            margin: 2rem auto; /* Center container with top margin */
+            padding: 0 1rem; /* Add horizontal padding */
         }
 
-        /* Header styles */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: linear-gradient(90deg, #1e6e1e, #2a7a2a);
-            color: #ffffff;
-            padding: 1rem 0; 
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-        .logo img {
-            width: 50px;
-            height: auto;
-        }
-
-        .logo img {
-            width: 35px;
-            height: 35px;
-        }
-
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .navbar a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .navbar a:hover {
-            text-decoration: underline;
+        h2 {
+            text-align: center;
         }
 
         /* Table styles */
-        .service-table {
+        .official-service-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 2rem;
             background-color: #ffffff;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .service-table th, .service-table td {
+        .official-service-table th, .official-service-table td {
             padding: 1rem;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
 
-        .service-table th {
+        .official-service-table th {
             background-color: #1e6e1e;
             color: #ffffff;
         }
 
-        .service-table tbody tr:hover {
+        .official-service-table tbody tr:hover {
             background-color: #f0f0f0;
         }
 
-        /* Checkbox styles */
-        .status-checkboxes {
+        /* Submit button styles */
+        .submit-btn-container {
             display: flex;
-            gap: 0.5rem;
-            align-items: center;
+            justify-content: flex-end; 
+            margin-top: 1rem;
         }
+        .submit_btn {
+            background: #ffc506;
+            font-family: inherit;
+            padding: 0.6em 1.3em;
+            font-weight: 900;
+            font-size: 18px;
+            border: 3px solid black;
+            border-radius: 0.4em;
+            box-shadow: 0.1em 0.1em;
+            cursor: pointer;
+        }
+
+        
+        .submit_btn:hover {
+            transform: translate(-0.05em, -0.05em);
+            box-shadow: 0.15em 0.15em;
+        }
+
+        .submit_btn:active {
+            transform: translate(0.05em, 0.05em);
+            box-shadow: 0.05em 0.05em;
+        }
+
 
         /* Responsive styles */
         @media (max-width: 768px) {
-            .navbar ul {
-                display: none;
-            }
-            .hamburger {
-                display: flex;
-                cursor: pointer;
-            }
-            .service-table, .service-table th, .service-table td {
+            .official-service-table, .official-service-table th, .official-service-table td {
                 font-size: 0.9rem;
             }
-            .service-table tbody tr {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-                padding: 1rem;
-                border-bottom: 1px solid #ddd;
+
+            .submit-btn-container {
+                justify-content: center; /* Center the button on smaller screens */
             }
         }
     </style>
@@ -127,61 +103,56 @@
 <body>
     <!-- Header Section -->
     <header class="header">
-        <div class="container">
-            <div class="logo">
-                <img src="img/BD_govt_logo.png" alt="National Logo">
-            </div>
-            <nav class="navbar">
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#about">About</a></li>
-                </ul>
-            </nav>
-        </div>
+        <?php require_once('includes/navbar.php'); ?>
     </header>
 
     <!-- Main Content Section -->
     <div class="container">
         <h2>Official Dashboard</h2>
-        <table class="service-table">
+        <table class="official-service-table">
             <thead>
                 <tr>
                     <th>Request ID</th>
                     <th>Request Type</th>
+                    <th>Department</th>
                     <th>User ID</th>
                     <th>Approve</th>
                     <th>Deny</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Example rows for demonstration -->
                 <tr>
                     <td>001</td>
                     <td>Passport Renewal</td>
+                    <td>Immigration</td>
                     <td>U12345</td>
-                    <td><input type="checkbox" name="completed"></td>
-                    <td><input type="checkbox" name="not-completed"></td>
+                    <td><input type="checkbox" name="Approved"></td>
+                    <td><input type="checkbox" name="not-Approved"></td>
                 </tr>
                 <tr>
                     <td>002</td>
                     <td>Driving License</td>
+                    <td>Transport</td>
                     <td>U23456</td>
-                    <td><input type="checkbox" name="completed"></td>
-                    <td><input type="checkbox" name="not-completed"></td>
+                    <td><input type="checkbox" name="Approved"></td>
+                    <td><input type="checkbox" name="not-Approved"></td>
                 </tr>
                 <tr>
                     <td>003</td>
                     <td>Citizenship Verification</td>
+                    <td>Public Info</td>
                     <td>U34567</td>
-                    <td><input type="checkbox" name="completed" checked></td>
-                    <td><input type="checkbox" name="not-completed"></td>
+                    <td><input type="checkbox" name="Approved" checked></td>
+                    <td><input type="checkbox" name="not-Approved"></td>
                 </tr>
                 <!-- Add more rows dynamically as needed -->
             </tbody>
         </table>
-    </div>
 
+        <!-- Submit Button -->
+        <div class="submit-btn-container">
+            <button class="submit_btn">Submit</button>
+        </div>
+    </div>
 </body>
 </html>
