@@ -64,7 +64,7 @@
     }
 
     /* Button styles */
-    .btn {
+    .portal_btn {
         background: linear-gradient(#ffffff, #36A13A);
         border: none;
         color: white;
@@ -78,12 +78,12 @@
         text-decoration: none;
     }
 
-    .btn:hover {
+    .portal_btn:hover {
         transform: scale(1.05);
         box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
     }
 
-    .btn:active {
+    .portal_btn:active {
         transform: scale(0.95);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
@@ -122,7 +122,7 @@
         <div class="logo">
             <img src="img/BD_govt_logo.png" alt="National Logo">
         </div>
-        <a class="btn" href="signup.php">Portal</a>
+        <a class="portal_btn" href="signup.php">Portal</a>
 
         <nav class="navbar">
             <div class="hamburger" onclick="toggleMenu()">

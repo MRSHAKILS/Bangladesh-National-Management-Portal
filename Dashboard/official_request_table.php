@@ -59,26 +59,56 @@
         }
 
         /* Submit button styles */
-        .submit-btn-container {
-            display: flex;
-            justify-content: flex-end; /* Align the button to the bottom-right */
-        }
-
-        .submit-btn-container button {
-            background-color: #1e6e1e;
-            color: #ffffff;
+        .btn {
+            font-size: 17px;
+            background: transparent;
             border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 5px;
+            padding: 1em 1.5em;
+            color: #ffedd3;
+            text-transform: uppercase;
+            position: relative;
+            transition: 0.5s ease;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
         }
 
-        .submit-btn-container button:hover {
-            background-color: #145314;
+        .btn::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            width: 0;
+            background-color: #ffc506;
+            transition: 0.5s ease;
         }
+
+        .btn:hover {
+            color: #1e1e2b;
+            transition-delay: 0.5s;
+        }
+
+        .btn:hover::before {
+            width: 100%;
+        }
+
+        .btn::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 0;
+            width: 100%;
+            background-color: #ffc506;
+            transition: 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::after {
+            height: 100%;
+            transition-delay: 0.4s;
+            color: aliceblue;
+        }
+
 
         /* Responsive styles */
         @media (max-width: 768px) {
@@ -143,7 +173,7 @@
 
         <!-- Submit Button -->
         <div class="submit-btn-container">
-            <button type="submit">Submit</button>
+            <button class="btn">Hover me</button>
         </div>
     </div>
 </body>
