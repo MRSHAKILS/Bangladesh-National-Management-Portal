@@ -23,7 +23,15 @@
             flex-direction: column;
             height: 100vh;
         }
-
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
         .user-info, .request-service {
             background-color: #ffffff;
             padding: 2rem;
@@ -121,15 +129,28 @@
 </head>
 <body>
     <!-- User Information Section -->
-    <div class="user-info">
-        <h1>User Information</h1>
-        <p><span>User ID:</span> 1</p>
-        <p><span>Full Name:</span> John Doe</p>
-        <p><span>Username:</span> john.doe</p>
-        <p><span>Email:</span> john.doe@example.com</p>
-        <p><span>User Role:</span> Citizen</p>
-        <p><span>Notification Preferences:</span> Email, SMS</p>
-        <p><span>Registration Date:</span> 2024-11-01</p>
+    <div class="container">
+        <div class="user-info">
+            <h1>User Information</h1>
+            <p><span>User ID:</span> 1</p>
+            <p><span>Full Name:</span> John Doe</p>
+            <p><span>Username:</span> john.doe</p>
+            <p><span>Email:</span> john.doe@example.com</p>
+            <p><span>User Role:</span> Citizen</p>
+            <p><span>Notification Preferences:</span> Email, SMS</p>
+            <p><span>Registration Date:</span> 2024-11-01</p>
+        </div>
+
+        <div class="user-info">
+            <h1>User Information</h1>
+            <p><span>User ID:</span> 1</p>
+            <p><span>Full Name:</span> John Doe</p>
+            <p><span>Username:</span> john.doe</p>
+            <p><span>Email:</span> john.doe@example.com</p>
+            <p><span>User Role:</span> Citizen</p>
+            <p><span>Notification Preferences:</span> Email, SMS</p>
+            <p><span>Registration Date:</span> 2024-11-01</p>
+        </div>
     </div>
 
     <!-- Request Service Section -->
