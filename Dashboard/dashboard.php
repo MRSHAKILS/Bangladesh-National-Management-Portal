@@ -45,25 +45,7 @@ require_once('includes/db.php');
 
         
 
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                right: 0;
-                background: #2f8f2f;
-                width: 100%;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-        }
+        
 
         /* Testimonial Section */
         .testimonials {
@@ -90,29 +72,7 @@ require_once('includes/db.php');
             opacity: 1;
         }
 
-         /* Button */
-         .btn {
-            background: linear-gradient(#ffffff, #36A13A);
-            border: none;
-            color: white;
-            padding: 8px 24px;
-            font-size: 10px;
-            font-weight: bold;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-            }
-
-        .btn:active {
-            transform: scale(0.95);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
+         
 
     </style>
 </head>
