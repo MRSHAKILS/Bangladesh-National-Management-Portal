@@ -119,7 +119,7 @@ require_once('includes/db.php');
 <body>
     <!-- Header Section -->
     <header class="header">
-    <?php require_once('includes/navbar.php'); ?>
+        <?php require_once('includes/navbar.php'); ?>
     </header>
 
     <!-- Banner Section -->

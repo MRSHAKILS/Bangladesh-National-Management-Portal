@@ -16,58 +16,9 @@
         body {
             background-color: #f4f4f4;
             color: #333;
-            padding-top: 70px; /* Space for fixed header */
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             
         }
-
-        /* Header styles */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: linear-gradient(90deg, #1e6e1e, #2a7a2a);
-            color: #ffffff;
-            padding: 1rem 0; 
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-        .logo img {
-            width: 50px;
-            height: auto;
-        }
-
-        .logo img {
-            width: 35px;
-            height: 35px;
-        }
-
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .navbar a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .navbar a:hover {
-            text-decoration: underline;
-        }
+        
 
         /* Table styles */
         .service-table {
@@ -127,19 +78,7 @@
 <body>
     <!-- Header Section -->
     <header class="header">
-        <div class="container">
-            <div class="logo">
-                <img src="img/BD_govt_logo.png" alt="National Logo">
-            </div>
-            <nav class="navbar">
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#about">About</a></li>
-                </ul>
-            </nav>
-        </div>
+        <?php require_once('includes/navbar.php'); ?>
     </header>
 
     <!-- Main Content Section -->
