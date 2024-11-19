@@ -92,6 +92,9 @@
         </form>
     </div>
 
+     <!-- Footer Section -->
+     <?php require_once('includes/footer.php'); ?>
+
     <script>
         function toggleFormFields() {
             var citizenFields = document.getElementById('citizenFields');

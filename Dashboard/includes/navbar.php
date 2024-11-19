@@ -6,7 +6,7 @@
         padding: .5rem 0;
     }
 
-    .container {
+    .nav_container {
         width: 90%;
         max-width: 1200px;
         margin: auto;
@@ -110,7 +110,7 @@
             display: flex;
         }
 
-        .container {
+        .nav_container {
             position: relative;
         }
     }
@@ -118,7 +118,7 @@
 
 <!-- HTML Structure -->
 <header class="header">
-    <div class="container">
+    <div class="nav_container">
         <div class="logo">
             <img src="img/BD_govt_logo.png" alt="National Logo">
         </div>

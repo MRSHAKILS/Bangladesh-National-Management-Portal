@@ -56,5 +56,7 @@
             <button type="submit">Login</button>
         </form>
     </div>
+     <!-- Footer Section -->
+     <?php require_once('includes/footer.php'); ?>
 </body>
 </html>

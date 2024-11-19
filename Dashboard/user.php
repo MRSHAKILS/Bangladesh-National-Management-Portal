@@ -161,15 +161,17 @@
         </div>
     </div>
 
+
+    
     <script>
         let selectedService = '';
-
+        
         function handleService(service) {
             selectedService = service;
             document.getElementById('modalMessage').innerText = `You have selected the ${service} service.`;
             openModal('serviceModal');
         }
-
+        
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
         }
@@ -184,17 +186,17 @@
 
             // Simulating database interaction
             const requestId = await fetchRequestId(selectedService);
-
+            
             // Update the confirmation modal with the request ID
             document.getElementById('confirmationMessage').innerText = 
-                `You have requested the ${selectedService} service. Your request ID is "${requestId}".`;
+            `You have requested the ${selectedService} service. Your request ID is "${requestId}".`;
             openModal('confirmationModal');
         });
-
+        
         document.getElementById('cancelButton').addEventListener('click', () => {
             closeModal('serviceModal');
         });
-
+        
         // Simulate fetching request ID from the database
         async function fetchRequestId(service) {
             // Simulated delay and dummy request ID
@@ -204,6 +206,6 @@
                 }, 1000);
             });
         }
-    </script>
+        </script>
 </body>
 </html>
