@@ -55,6 +55,20 @@
         .signup-container button:hover {
             background-color: #218838;
         }
+        .user-login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .user-login-link a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-size: 16px;
+        }
+
+        .user-login-link a:hover {
+            color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -73,5 +87,6 @@
         <div class="user-login-link">
             <p>Alrady have an account? <a href="user_login.php">Log in here</a></p>
     </div>
+    
 </body>
 </html>
