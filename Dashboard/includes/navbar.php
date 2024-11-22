@@ -250,6 +250,55 @@
             position: relative;
         }
     }
+
+
+    /* Modal Styles */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content h2 {
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    .modal-content .ui-btn {
+        margin: 10px;
+    }
+
+    .modal .close-btn {
+        background: #ff4d4d;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 </style>
 
 <!-- HTML Structure -->
@@ -258,8 +307,22 @@
         <div class="logo">
             <img src="img/BD_govt_logo.png" alt="National Logo">
         </div>
-        <button class="ui-btn" onclick="window.location.href='signup.php';"> <span>    Portal   </span></button>
+        <!-- Portal Button -->
+        <button class="ui-btn" onclick="openModal()"> <span>Portal</span></button>
 
+        <div id="portalModal" class="modal">
+          <div class="modal-content">
+              <h2>Select Portal</h2>
+              <button class="ui-btn" onclick="window.location.href='official_login.php';">Officials Portal</button>
+              <button class="ui-btn" onclick="window.location.href='user_signup.php';">User Portal</button>
+              <button class="ui-btn close-btn" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+
+
+
+
+        <!-- Navbar -->
         <nav class="navbar">
             <div class="hamburger" onclick="toggleMenu()">
                 <span></span>
@@ -281,5 +344,23 @@
     function toggleMenu() {
         const navLinks = document.querySelector('.nav-links');
         navLinks.classList.toggle('active');
+    }
+
+    function openModal() {
+        const modal = document.getElementById('portalModal');
+        modal.style.display = 'flex'; // Show the modal
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('portalModal');
+        modal.style.display = 'none'; // Hide the modal
+    }
+
+    // Close modal when clicking outside content
+    window.onclick = function(event) {
+        const modal = document.getElementById('portalModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
     }
 </script>

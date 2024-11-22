@@ -1,3 +1,45 @@
+<?php
+
+require_once('includes/db.php');
+
+$mysqli = connect();
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(isset($_POST['service_request'])) {
+        $request_type = $_POST['service_request'];
+        $username = $_SESSION['username'];
+
+        if($request_type == 'Passport' || $request_type == 'Transport' || $request_type == 'Citizenship') {
+
+            $sql = "SELECT UserID FROM users WHERE Username = '$username'";
+            $user_id = $mysqli->query($sql)->fetch_assoc()['UserID'];
+
+            $sql = "SELECT ServiceID FROM services WHERE ServiceType = '$request_type'";
+            $service_id = $mysqli->query($sql)->fetch_assoc()['ServiceID'];
+
+            $sql = "SELECT CitizenID FROM citizen WHERE UserID = '$user_id'";
+            $citizen_id = $mysqli->query($sql)->fetch_assoc()['CitizenID'];
+            
+            $sql = "INSERT INTO servicerequest (CitizenID, ServiceID) VALUES ('$citizen_id', '$service_id')";
+            $mysqli->query($sql);
+        } 
+    }
+} 
+
+$user_username = $_SESSION['username'];
+$sql = "SELECT * FROM users WHERE Username = '$user_username'";
+$response = $mysqli->query($sql);
+
+$user_details = $response->fetch_assoc();
+
+if(isset($user_details['type'])) {
+
+}
+else {
+    header('Location: user_signup_modal.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -221,11 +263,10 @@
     <div class="container">
         <div class="user-info">
             <h1>User Information</h1>
-            <p><span>User ID:</span> 1</p>
-            <p><span>Full Name:</span> John Doe</p>
-            <p><span>Username:</span> john.doe</p>
-            <p><span>Email:</span> john.doe@example.com</p>
-            <p><span>User Role:</span> Citizen</p>
+            <p><span>User ID:</span> <?php echo @$user_details['UserID'] ?></p>
+            <p><span>Full Name:</span> <?php echo @$user_details['FullName'] ?></p>
+            <p><span>Username:</span> <?php echo @$user_details['Username'] ?></p>
+            <p><span>Email:</span> <?php echo @$user_details['Email'] ?></p>
             <p><span>Notification Preferences:</span> Email, SMS</p>
             <p><span>Registration Date:</span> 2024-11-01</p>
         </div>
@@ -282,12 +323,14 @@
 
     <!-- Service Modal -->
     <div class="modal" id="serviceModal">
-        <div class="modal-content">
-            <h2>Service Request</h2>
-            <p id="modalMessage"></p>
-            <button id="confirmButton">Confirm</button>
-            <button id="cancelButton">Cancel</button>
-        </div>
+        <form method="post">
+            <div class="modal-content">
+                <h2>Service Request</h2>
+                <p id="modalMessage"></p>
+                <button type="submit" id="confirmButton" name="service_request"  value="">Confirm</button>
+                <button type="button" id="cancelButton">Cancel</button>
+            </div>
+        </form>
     </div>
 
     <!-- Confirmation Modal -->
@@ -307,6 +350,7 @@
         function handleService(service) {
             selectedService = service;
             document.getElementById('modalMessage').innerText = `You have selected the ${service} service.`;
+            document.getElementById('confirmButton').value = service;
             openModal('serviceModal');
         }
         

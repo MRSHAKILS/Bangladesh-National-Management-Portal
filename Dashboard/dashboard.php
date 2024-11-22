@@ -83,6 +83,7 @@ require_once('includes/db.php');
     <header class="header">
         <?php require_once('includes/navbar.php'); ?>
     </header>
+    
 
     <!-- Banner Section -->
     <section class="banner">

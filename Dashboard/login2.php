@@ -1,19 +1,9 @@
-<?php
-
-    require_once('includes/signupFunction.php');
-
-    if(isset($_POST['signup'])) {
-        $response = signup($_POST['username'], $_POST['email'], $_POST['password'], $_POST['c_password']);
-    }
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup Page</title>
+    <title>Login Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,48 +15,45 @@
             height: 100vh;
             background-color: #f4f4f4;
         }
-        .signup-container {
+        .login-container {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             width: 300px;
         }
-        .signup-container h2 {
+        .login-container h2 {
             text-align: center;
             margin-bottom: 20px;
         }
-        .signup-container input {
+        .login-container input {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
             border: 1px solid #ddd;
         }
-        .signup-container button {
+        .login-container button {
             width: 100%;
             padding: 10px;
-            background-color: #28a745;
+            background-color: #007BFF;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        .signup-container button:hover {
-            background-color: #218838;
+        .login-container button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="signup-container">
-        <h2>Sign Up</h2>
-        <form method="POST">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="password" name="c_password" placeholder="Confirm Password" required>
-            <p><?php if(@$response != "success"){echo @$response;} ?></p>
-            <button type="submit" name="signup">Sign Up</button>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form action="#">
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
         </form>
     </div>
 </body>
