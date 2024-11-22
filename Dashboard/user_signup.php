@@ -68,6 +68,10 @@
             <p><?php if(@$response != "success"){echo @$response;} ?></p>
             <button type="submit" name="signup">Sign Up</button>
         </form>
+
+        <!-- Log in Link -->
+        <div class="user-login-link">
+            <p>Alrady have an account? <a href="user_login.php">Log in here</a></p>
     </div>
 </body>
 </html>
