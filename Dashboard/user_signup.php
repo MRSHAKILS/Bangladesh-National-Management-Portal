@@ -1,7 +1,10 @@
 <?php
 require_once('includes/user_signupFunction.php');
+
 if (isset($_POST['signup'])) {
     $response = signup($_POST['username'], $_POST['email'], $_POST['password'], $_POST['c_password']);
+
+    
 }
 ?>
 
@@ -10,7 +13,7 @@ if (isset($_POST['signup'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup Page</title>
+    <title>User Signup Page</title>
     <style>
         /* General Reset */
         * {
@@ -122,7 +125,7 @@ if (isset($_POST['signup'])) {
 </head>
 <body>
     <div class="signup-container">
-        <h2>Sign Up</h2>
+        <h2>User Sign Up</h2>
         <form method="POST">
             <input type="text" name="username" placeholder="Username" required>
             <input type="email" name="email" placeholder="Email" required>

@@ -14,8 +14,9 @@ function signup($username, $email, $password, $c_password) {
         header('location: user_login.php');
         return "success"; 
     } else { 
-        return "Error: " . $conn->error; 
+        return "Error: " . $mysqli->error; 
     } 
+    
 
 }
 

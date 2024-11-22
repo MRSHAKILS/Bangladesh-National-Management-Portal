@@ -9,7 +9,7 @@ SET time_zone = "+00:00";
 
 
 CREATE TABLE `citizen` (
-  `CitizenID` int(12) NOT NULL,
+  `CitizenID` int(12) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `UserID` int(12) NOT NULL,
   `FullName` varchar(100) DEFAULT NULL,
   `DateOfBirth` date DEFAULT NULL,
@@ -19,7 +19,10 @@ CREATE TABLE `citizen` (
   `addressPresent` varchar(255) DEFAULT NULL,
   `addressPermanent` varchar(255) DEFAULT NULL,
   `ContactInfo` varchar(100) DEFAULT NULL,
-  `Age` int(10) DEFAULT NULL
+  `Age` int(10) DEFAULT NULL,
+  `TIN` int(20) DEFAULT NULL,
+
+  FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -59,14 +62,17 @@ CREATE TABLE `completedrequest` (
 --
 
 CREATE TABLE `expat` (
-  `ExpatID` int(11) NOT NULL,
+  `ExpatID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `UserID` int(12) NOT NULL,
   `VisaType` varchar(50) DEFAULT NULL,
   `WorkPermitStatus` varchar(50) DEFAULT NULL,
   `ExpectedDepartureDate` date DEFAULT NULL,
   `EntryDate` date DEFAULT NULL,
   `BankAccount` varchar(50) DEFAULT NULL,
-  `Origin` varchar(50) DEFAULT NULL
+  `Origin` varchar(50) DEFAULT NULL,
+  `PassportNumber` varchar(50) DEFAULT NULL,
+
+  FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -74,12 +80,12 @@ CREATE TABLE `expat` (
 --
 
 CREATE TABLE `users` (
-  `UserID` int(12) NOT NULL,
-  `FullName` varchar(100) NOT NULL,
+  `UserID` int(12) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `Username` varchar(50) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Email` varchar(100) DEFAULT NULL,
-  `NotificationPreferences` varchar(50) DEFAULT NULL
+  `NotificationPreferences` varchar(50) DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -201,12 +207,15 @@ CREATE TABLE `servicefeedback` (
 --
 
 CREATE TABLE `servicerequest` (
-  `RequestID` int(11) NOT NULL,
+  `RequestID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `CitizenID` int(12) NOT NULL,
-  `ServiceID` int(11) NOT NULL,
+  `ServiceID` int(11) DEFAULT NULL,
   `RequestStatus` varchar(50) DEFAULT NULL,
   `RequestDescription` text DEFAULT NULL,
-  `SupportingEvidence` text DEFAULT NULL
+  `SupportingEvidence` text DEFAULT NULL,
+
+  FOREIGN KEY (`CitizenID`) REFERENCES `citizen` (`CitizenID`) ON DELETE CASCADE,
+  FOREIGN KEY (`ServiceID`) REFERENCES `services` (`ServiceID`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -216,7 +225,7 @@ CREATE TABLE `servicerequest` (
 --
 
 CREATE TABLE `services` (
-  `ServiceID` int(11) NOT NULL,
+  `ServiceID` int(11) AUTO_INCREMENT PRIMARY KEY,
   `ServiceType` varchar(100) DEFAULT NULL,
   `ServiceDescription` text DEFAULT NULL,
   `ApplicationProcess` text DEFAULT NULL,
