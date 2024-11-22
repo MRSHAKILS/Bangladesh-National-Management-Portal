@@ -258,7 +258,7 @@
         <div class="logo">
             <img src="img/BD_govt_logo.png" alt="National Logo">
         </div>
-        <button class="ui-btn" onclick="window.location.href='signup.php';"> <span>    Portal   </span></button>
+        <button class="ui-btn" onclick="window.location.href='user_signup.php';"> <span>    Portal   </span></button>
 
         <nav class="navbar">
             <div class="hamburger" onclick="toggleMenu()">
