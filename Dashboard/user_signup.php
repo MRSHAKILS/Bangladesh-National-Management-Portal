@@ -131,6 +131,7 @@ if (isset($_POST['signup'])) {
             <p class="response <?php echo (@$response == 'success') ? 'success' : ''; ?>">
                 <?php echo htmlspecialchars(@$response); ?>
             </p>
+            <br>
             <button type="submit" name="signup">Sign Up</button>
         </form>
         <div class="user-login-link">
