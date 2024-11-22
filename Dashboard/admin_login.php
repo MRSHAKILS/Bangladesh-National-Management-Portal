@@ -18,33 +18,27 @@ if ($conn->connect_error) {
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Prepare and bind to prevent SQL injection
-    $stmt = $conn->prepare("SELECT * FROM Users WHERE Username = ? AND Password = ?");
-    $stmt->bind_param("ss", $user, $pass);
-
     // Sanitize user inputs
     $user = htmlspecialchars($_POST['username']);
     $pass = htmlspecialchars($_POST['password']);
 
-    // Execute the statement
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $response = $conn->query("SELECT * FROM admin WHERE Username = '$user' AND Password = '$pass'");
+    $result = $response->fetch_assoc();
 
     // Check if the user exists
-    if ($result->num_rows > 0) {
+    if ($response->num_rows > 0) {
         // User exists, set session variables
-        $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $user;
-        header("Location: user.php"); // Redirect to user dashboard
+        $_SESSION['fullname'] = $result['Fullname'];
+        header("Location: admin_request_table.php"); // Redirect to user dashboard
         exit;
     } else {
         $error = "Invalid username or password.";
     }
 
-    $stmt->close();
+    $conn->close();
 }
 
-$conn->close();
 ?>
 
 <!DOCTYPE html>

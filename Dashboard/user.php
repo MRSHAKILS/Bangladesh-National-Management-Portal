@@ -1,3 +1,17 @@
+<?php
+
+require_once('db.php');
+
+$mysqli = connect();
+
+$user_username = $_SESSION['username'];
+$sql = "SELECT * FROM users WHERE username = $user_username";
+$response = $myqli->query($sql);
+
+$user_details = $response->fetch_assoc();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

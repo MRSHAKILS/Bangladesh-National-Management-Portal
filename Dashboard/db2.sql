@@ -101,13 +101,22 @@ INSERT INTO `users` (`UserID`, `FullName`, `Username`, `Password`, `Email`, `Not
 
 CREATE TABLE `governmentofficial` (
   `OfficialID` int(11) NOT NULL,
+  `Username` varchar(50) NOT NULL UNIQUE,
+  `FullName` varchar(100) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `EmploymentType` varchar(50) DEFAULT NULL,
   `DateOfAppointment` date DEFAULT NULL,
-  `Supervisor` int(11) DEFAULT NULL,
-  
+  `WorkLocation` varchar(100) DEFAULT NULL,
+  `Supervisor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
+CREATE TABLE `admin` (
+  `Username` varchar(50) NOT NULL UNIQUE,
+  `FullName` varchar(100) NOT NULL,
+  `Password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `governmentdepartment` (
   `DepartmentID` int(11) NOT NULL,
