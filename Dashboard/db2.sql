@@ -101,6 +101,7 @@ INSERT INTO `users` (`UserID`, `FullName`, `Username`, `Password`, `Email`, `Not
 
 CREATE TABLE `governmentofficial` (
   `OfficialID` int(11) NOT NULL,
+  `Username` varchar(50) NOT NULL,
   `UserID` int(12) NOT NULL,
   `EmploymentType` varchar(50) DEFAULT NULL,
   `DateOfAppointment` date DEFAULT NULL,

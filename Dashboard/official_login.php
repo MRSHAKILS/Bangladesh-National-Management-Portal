@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Prepare and bind to prevent SQL injection
-    $stmt = $conn->prepare("SELECT * FROM Users WHERE Username = ? AND Password = ?");
+    $stmt = $conn->prepare("SELECT * FROM governmentofficial WHERE Username = ? AND Password = ?");
     $stmt->bind_param("ss", $user, $pass);
 
     // Sanitize user inputs
