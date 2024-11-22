@@ -21,7 +21,7 @@ CREATE TABLE `citizen` (
   `ContactInfo` varchar(100) DEFAULT NULL,
   `Age` int(10) DEFAULT NULL,
   `TIN` int(20) DEFAULT NULL,
-
+ 
   FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
