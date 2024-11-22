@@ -239,7 +239,6 @@ $user_details = $response->fetch_assoc();
             <p><span>Full Name:</span> John Doe</p>
             <p><span>Username:</span> john.doe</p>
             <p><span>Email:</span> john.doe@example.com</p>
-            <p><span>User Role:</span> Citizen</p>
             <p><span>Notification Preferences:</span> Email, SMS</p>
             <p><span>Registration Date:</span> 2024-11-01</p>
         </div>
