@@ -101,15 +101,9 @@ INSERT INTO `users` (`UserID`, `FullName`, `Username`, `Password`, `Email`, `Not
 
 CREATE TABLE `governmentofficial` (
   `OfficialID` int(11) NOT NULL,
-  `Username` varchar(50) NOT NULL,
-  `UserID` int(12) NOT NULL,
-  `EmploymentType` varchar(50) DEFAULT NULL,
   `DateOfAppointment` date DEFAULT NULL,
-  `Rank` varchar(50) DEFAULT NULL,
-  `WorkLocation` varchar(100) DEFAULT NULL,
   `Supervisor` int(11) DEFAULT NULL,
-  `TrainingRecords` text DEFAULT NULL,
-  `Role` varchar(50) DEFAULT NULL
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
