@@ -155,7 +155,7 @@ $conn->close();
 <body>
 
 <div class="container">
-    <h2>Login</h2>
+    <h2>Admin Sign in</h2>
 
     <!-- Display error message -->
     <?php if (isset($error)): ?>
@@ -171,7 +171,7 @@ $conn->close();
 
     <!-- Signup Link -->
     <div class="signup-link">
-        <p>Don't have an account? <a href="user_signup.php">Sign up here</a></p>
+        <p>Don't have Admin access? <a href="official_login.php">Officials Sign in here</a></p>
     </div>
 </div>
 

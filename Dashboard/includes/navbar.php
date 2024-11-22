@@ -313,7 +313,7 @@
         <div id="portalModal" class="modal">
           <div class="modal-content">
               <h2>Select Portal</h2>
-              <button class="ui-btn" onclick="window.location.href='official_signup.php';">Officials Portal</button>
+              <button class="ui-btn" onclick="window.location.href='official_login.php';">Officials Portal</button>
               <button class="ui-btn" onclick="window.location.href='user_signup.php';">User Portal</button>
               <button class="ui-btn close-btn" onclick="closeModal()">Close</button>
             </div>

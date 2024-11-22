@@ -70,10 +70,49 @@ CREATE TABLE `expat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
+-- Table structure for table `users`
+--
 
+CREATE TABLE `users` (
+  `UserID` int(12) NOT NULL,
+  `FullName` varchar(100) NOT NULL,
+  `Username` varchar(50) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  `NotificationPreferences` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`UserID`, `FullName`, `Username`, `Password`, `Email`, `NotificationPreferences`) VALUES
+(1, 'John Doe', 'johndoe', 'johndoe', 'johndoe@mail.com', NULL),
+(2, 'Jane Doe', 'janedoe', 'janedoe', 'janedoe@mail.com', NULL),
+(3, 'Alice', 'alice', 'alice', 'alice@mail.com', NULL),
+(4, 'Bob', 'bob', 'bob', 'bob@mail.com', NULL),
+(5, 'Charlie', 'charlie', 'charlie', 'charlie@mail.com', NULL),
+(6, 'David', 'david', 'david', 'david@mail.com', NULL);
+
+--
 --
 -- Table structure for table `governmentdepartment`
 --
+
+CREATE TABLE `governmentofficial` (
+  `OfficialID` int(11) NOT NULL,
+  `UserID` int(12) NOT NULL,
+  `EmploymentType` varchar(50) DEFAULT NULL,
+  `DateOfAppointment` date DEFAULT NULL,
+  `Rank` varchar(50) DEFAULT NULL,
+  `WorkLocation` varchar(100) DEFAULT NULL,
+  `Supervisor` int(11) DEFAULT NULL,
+  `TrainingRecords` text DEFAULT NULL,
+  `Role` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
 
 CREATE TABLE `governmentdepartment` (
   `DepartmentID` int(11) NOT NULL,
@@ -91,20 +130,6 @@ CREATE TABLE `governmentdepartment` (
 --
 -- Table structure for table `governmentofficial`
 --
-
-CREATE TABLE `governmentofficial` (
-  `OfficialID` int(11) NOT NULL,
-  `UserID` int(12) NOT NULL,
-  `EmploymentType` varchar(50) DEFAULT NULL,
-  `DateOfAppointment` date DEFAULT NULL,
-  `Rank` varchar(50) DEFAULT NULL,
-  `WorkLocation` varchar(100) DEFAULT NULL,
-  `Supervisor` int(11) DEFAULT NULL,
-  `TrainingRecords` text DEFAULT NULL,
-  `Role` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `nid_card`
@@ -199,31 +224,7 @@ CREATE TABLE `services` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
---
 
-CREATE TABLE `users` (
-  `UserID` int(12) NOT NULL,
-  `FullName` varchar(100) NOT NULL,
-  `Username` varchar(50) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-  `Email` varchar(100) DEFAULT NULL,
-  `NotificationPreferences` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`UserID`, `FullName`, `Username`, `Password`, `Email`, `NotificationPreferences`) VALUES
-(1, 'John Doe', 'johndoe', 'johndoe', 'johndoe@mail.com', NULL),
-(2, 'Jane Doe', 'janedoe', 'janedoe', 'janedoe@mail.com', NULL),
-(3, 'Alice', 'alice', 'alice', 'alice@mail.com', NULL),
-(4, 'Bob', 'bob', 'bob', 'bob@mail.com', NULL),
-(5, 'Charlie', 'charlie', 'charlie', 'charlie@mail.com', NULL),
-(6, 'David', 'david', 'david', 'david@mail.com', NULL);
-
---
 -- Indexes for dumped tables
 --
 
