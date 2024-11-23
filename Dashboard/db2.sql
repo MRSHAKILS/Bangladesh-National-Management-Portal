@@ -85,7 +85,7 @@ CREATE TABLE `users` (
   `Password` varchar(255) NOT NULL,
   `Email` varchar(100) DEFAULT NULL,
   `NotificationPreferences` varchar(50) DEFAULT NULL,
-  `type` varchar(50) DEFAULT NULL
+  `type` varchar(50) DEFAULT NULL,
   `date_registered` DATETIME CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
