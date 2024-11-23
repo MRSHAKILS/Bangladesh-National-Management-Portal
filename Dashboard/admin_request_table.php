@@ -127,7 +127,7 @@
         .Approve_btn {
             background: #EE222A;
             font-family: inherit;
-            padding: 0.6em 1.3em;
+            padding: 0.2em .5em;
             font-weight: 900;
             font-size: 18px;
             border: 3px solid black;
