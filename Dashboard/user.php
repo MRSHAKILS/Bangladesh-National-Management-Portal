@@ -39,7 +39,7 @@ if(!isset($user_details['type'])) {
 $sql = "SELECT CitizenID FROM citizen WHERE UserID = ". $_SESSION['user_id'];
 $citizen_id = $mysqli->query($sql)->fetch_assoc()['CitizenID'];
 
-$sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID WHERE sr.CitizenID = $citizen_id";
+$sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID JOIN department d ON s.DepartmentID = d.DepartmentID WHERE sr.CitizenID = $citizen_id";
 $service_requests = $mysqli->query($sql);
 
 ?>
@@ -295,7 +295,7 @@ $service_requests = $mysqli->query($sql);
                             <tr>
                                 <td>". $service_request['RequestID'] ."</td>
                                 <td>". $service_request['ServiceType'] ."</td>
-                                <td>Under Construction</td>
+                                <td>". $service_request['DepartmentName'] ."</td>
                                 <td>". $service_request['RequestStatus'] ."</td>
                                 <td><button class='rbutton'>Review</button></td>
                             </tr>

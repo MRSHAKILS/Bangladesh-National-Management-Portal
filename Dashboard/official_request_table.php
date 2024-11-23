@@ -50,7 +50,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
-$sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID";
+$sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID JOIN department d ON s.DepartmentID = d.DepartmentID WHERE RequestStatus <> 'Approved'";
 $service_requests = $mysqli->query($sql);
 
 ?>
@@ -255,7 +255,7 @@ $service_requests = $mysqli->query($sql);
                                 <tr>
                                     <td>". $service_request['RequestID'] ."</td>
                                     <td>". $service_request['ServiceType'] ."</td>
-                                    <td>Under Construction</td>
+                                    <td>". $service_request['DepartmentName'] ."</td>
                                     <td>". $service_request['CitizenID'] ."</td>
                                     <td><input type='checkbox' name='Approved[" . $service_request['RequestID'] . "]' ". ($service_request['RequestStatus'] == 'Pending Approval' ? 'checked' : '')."></td>
                                     <td><input type='checkbox' name='not-Approved[" . $service_request['RequestID'] . "]' ". ($service_request['RequestStatus'] == 'Pending' ? 'checked' : '')."></td>

@@ -86,7 +86,7 @@ CREATE TABLE `users` (
   `Email` varchar(100) DEFAULT NULL,
   `NotificationPreferences` varchar(50) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
-  `date_registered` DATETIME CURRENT_TIMESTAMP
+  `date_registered` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -125,8 +125,8 @@ CREATE TABLE `admin` (
   `Password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `governmentdepartment` (
-  `DepartmentID` int(11) NOT NULL,
+CREATE TABLE `department` (
+  `DepartmentID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `DepartmentName` varchar(100) NOT NULL,
   `FoundingDate` date DEFAULT NULL,
   `Location` varchar(100) DEFAULT NULL,

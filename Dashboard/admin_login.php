@@ -1,20 +1,8 @@
 <?php
-// Start the session
-session_start();
 
-// Database connection details
-$servername = "localhost"; // Database server
-$username = "root";        // Database username
-$password = "";            // Database password
-$dbname = "bdportal";      // Database name
+require_once('includes/db.php');
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$mysqli = connect();
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -22,21 +10,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = htmlspecialchars($_POST['username']);
     $pass = htmlspecialchars($_POST['password']);
 
-    $response = $conn->query("SELECT * FROM admin WHERE Username = '$user' AND Password = '$pass'");
+    $response = $mysqli->query("SELECT * FROM admin WHERE Username = '$user' AND Password = '$pass'");
     $result = $response->fetch_assoc();
 
     // Check if the user exists
     if ($response->num_rows > 0) {
         // User exists, set session variables
-        $_SESSION['username'] = $user;
-        $_SESSION['fullname'] = $result['Fullname'];
+        $_SESSION['admin_username'] = $user;
         header("Location: admin_request_table.php"); // Redirect to user dashboard
         exit;
     } else {
         $error = "Invalid username or password.";
     }
 
-    $conn->close();
+    $mysqli->close();
 }
 
 ?>

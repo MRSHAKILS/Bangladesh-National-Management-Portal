@@ -1,3 +1,28 @@
+<?php
+
+require_once('includes/db.php');
+
+if(!isset($_SESSION['admin_username'])) {
+    header('Location: admin_login.php');
+}
+
+$mysqli = connect();
+
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    if(isset($_POST['request_admin_approve'])) {
+        $requestID = $_POST['request_admin_approve'];
+        $sql = "UPDATE serviceRequest SET RequestStatus = 'Approved' WHERE RequestID = $requestID";
+        $mysqli->query($sql);
+    }
+}
+
+
+$sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID JOIN department d ON s.DepartmentID = d.DepartmentID WHERE RequestStatus <> 'Approved'";
+$service_requests = $mysqli->query($sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -166,54 +191,65 @@
                 justify-content: center; /* Center the button on smaller screens */
             }
         }
-    </style>
+        </style>
 </head>
 <body>
     <!-- Header Section -->
     <header class="header">
         <?php require_once('includes/navbar.php'); ?>
     </header>
-
+    
     <div class="search_container">
         <h1>Admin Dashboard</h1>
-            <div class="search-bar">
-                <input type="text" placeholder="Search services...">
-                <button><i class="fas fa-search"></i> Search</button>
+        <div class="search-bar">
+            <input type="text" placeholder="Search services...">
+            <button><i class="fas fa-search"></i> Search</button>
             </div>
     </div>
 
     <!-- Main Content Section -->
     <div class="container">
-        <table class="admin-service-table">
-            <thead>
-                <tr>
-                    <th>Request ID</th>
-                    <th>Request Type</th>
-                    <th>Department</th>
-                    <th>User ID</th>
-                    <th>Request Status</th>
-                    <th>Confirm</th>
+        <form method="post">            
+            <table class="admin-service-table">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Request Type</th>
+                        <th>Department</th>
+                        <th>Citizen ID</th>
+                        <th>Request Status</th>
+                        <th>Confirm</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($service_requests) {
+                        while ($service_request = $service_requests->fetch_assoc()) {
+                            echo "
+                                <tr>
+                                    <td>" . $service_request['RequestID'] . "</td>
+                                    <td>" . $service_request['ServiceType'] . "</td>
+                                    <td>" . $service_request['DepartmentName'] . "</td>
+                                    <td>" . $service_request['CitizenID'] . "</td>
+                                    <td>" . $service_request['RequestStatus'] . "</td>
+                                    <td>
+                                        <div class='Approve-btn-container'>
+                                            <button type='submit' name='request_admin_approve' value=".$service_request['RequestID']." class='Approve_btn'>Approve</button>
+                                        </div>
+                                    </td>
+                                <tr>";
+                                   
+                        }
+                    }
+                    ?> 
+            
+                        
                     
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Example rows for demonstration -->
-                <tr>
-                    <td>001</td>
-                    <td>Passport Renewal</td>
-                    <td>Immigration</td>
-                    <td>U12345</td>
-                    <td>In Progress</td>
-                    <td><!-- Approve Button -->
-                        <div class="Approve-btn-container">
-                            <button class="Approve_btn">Approve</button>
-                        </div>
-                    </td>
-                </tr>
-                
-                <!-- Add more rows dynamically as needed -->
-            </tbody>
-        </table>
+                    <!-- Add more rows dynamically as needed -->
+                </tbody>
+            </table>
+        </form>
 
         
     </div>
