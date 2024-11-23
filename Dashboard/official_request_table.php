@@ -1,3 +1,60 @@
+<?php
+
+require_once('includes/db.php');
+
+if(!isset($_SESSION['official_id'])) {
+    header('Location: official_login.php');
+}
+
+$mysqli = connect();
+
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Check if the relevant POST data exists
+    if (isset($_POST['Approved']) || isset($_POST['not-Approved'])) {
+
+        $sql = "";
+        
+        // Loop through the Approved checkboxes
+        if (isset($_POST['Approved'])) {
+            foreach ($_POST['Approved'] as $requestID => $approved) {
+
+                $sql .= "UPDATE servicerequest SET RequestStatus = 'Pending Approval' WHERE RequestID = $requestID;";
+            }
+        }
+
+        // Loop through the NotApproved checkboxes
+        if (isset($_POST['not-Approved'])) {
+            foreach ($_POST['not-Approved'] as $requestID => $notApproved) {
+
+                $sql .= "UPDATE servicerequest SET RequestStatus = 'Pending' WHERE RequestID = $requestID;";
+            }
+        }
+
+        // Execute all the queries at once using multi_query
+        if ($mysqli->multi_query($sql)) {
+            // Loop through the results to fetch all responses from the queries
+            do {
+                // // Store the first result set
+                // if ($result = $mysqli->store_result()) {
+                //     while ($row = $result->fetch_row()) {
+                //         // Process the result if necessary
+                //     }
+                //     $result->free();
+                // }
+            } while ($mysqli->next_result()); // Check for further results
+        } else {
+            // Error in executing the queries
+            echo "Error: " . $mysqli->error;
+        }
+    }
+}
+
+
+$sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID";
+$service_requests = $mysqli->query($sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +62,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Official Service Request Dashboard</title>
     <style>
-        /* Reset and general styles */
         * {
             margin: 0;
             padding: 0;
@@ -178,50 +234,46 @@
 
     <!-- Main Content Section -->
     <div class="container">
-        <table class="official-service-table">
-            <thead>
-                <tr>
-                    <th>Request ID</th>
-                    <th>Request Type</th>
-                    <th>Department</th>
-                    <th>User ID</th>
-                    <th>Approve</th>
-                    <th>Deny</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>001</td>
-                    <td>Passport Renewal</td>
-                    <td>Immigration</td>
-                    <td>U12345</td>
-                    <td><input type="checkbox" name="Approved"></td>
-                    <td><input type="checkbox" name="not-Approved"></td>
-                </tr>
-                <tr>
-                    <td>002</td>
-                    <td>Driving License</td>
-                    <td>Transport</td>
-                    <td>U23456</td>
-                    <td><input type="checkbox" name="Approved"></td>
-                    <td><input type="checkbox" name="not-Approved"></td>
-                </tr>
-                <tr>
-                    <td>003</td>
-                    <td>Citizenship Verification</td>
-                    <td>Public Info</td>
-                    <td>U34567</td>
-                    <td><input type="checkbox" name="Approved" checked></td>
-                    <td><input type="checkbox" name="not-Approved"></td>
-                </tr>
-                <!-- Add more rows dynamically as needed -->
-            </tbody>
-        </table>
-
-        <!-- Submit Button -->
-        <div class="submit-btn-container">
-            <button class="submit_btn">Submit</button>
-        </div>
+        <form method="post">
+            <table class="official-service-table">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Request Type</th>
+                        <th>Department</th>
+                        <th>User ID</th>
+                        <th>Approve</th>
+                        <th>Deny</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    
+                    if(isset($service_requests)) {
+                        while($service_request = $service_requests->fetch_assoc()) {
+                            echo "
+                                <tr>
+                                    <td>". $service_request['RequestID'] ."</td>
+                                    <td>". $service_request['ServiceType'] ."</td>
+                                    <td>Under Construction</td>
+                                    <td>". $service_request['CitizenID'] ."</td>
+                                    <td><input type='checkbox' name='Approved[" . $service_request['RequestID'] . "]' ". ($service_request['RequestStatus'] == 'Pending Approval' ? 'checked' : '')."></td>
+                                    <td><input type='checkbox' name='not-Approved[" . $service_request['RequestID'] . "]' ". ($service_request['RequestStatus'] == 'Pending' ? 'checked' : '')."></td>
+                                </tr>
+                            ";
+                        }
+                    }
+    
+                    ?>
+                    <!-- Add more rows dynamically as needed -->
+                </tbody>
+            </table>
+    
+            <!-- Submit Button -->
+            <div class="submit-btn-container">
+                <button type="submit" name="official_request" class="submit_btn">Submit</button>
+            </div>
+        </form>
     </div>
 </body>
 </html>

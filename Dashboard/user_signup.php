@@ -132,7 +132,7 @@ if (isset($_POST['signup'])) {
             <input type="password" name="password" placeholder="Password" required>
             <input type="password" name="c_password" placeholder="Confirm Password" required>
             <p class="response <?php echo (@$response == 'success') ? 'success' : ''; ?>">
-                <?php echo htmlspecialchars(@$response); ?>
+                <?php echo @htmlspecialchars(@$response); ?>
             </p>
             <br>
             <button type="submit" name="signup">Sign Up</button>

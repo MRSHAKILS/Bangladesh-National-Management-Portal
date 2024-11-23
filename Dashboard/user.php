@@ -32,12 +32,16 @@ $response = $mysqli->query($sql);
 
 $user_details = $response->fetch_assoc();
 
-if(isset($user_details['type'])) {
-
-}
-else {
+if(!isset($user_details['type'])) {
     header('Location: user_signup_modal.php');
 }
+
+$sql = "SELECT CitizenID FROM citizen WHERE UserID = ". $_SESSION['user_id'];
+$citizen_id = $mysqli->query($sql)->fetch_assoc()['CitizenID'];
+
+$sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID WHERE sr.CitizenID = $citizen_id";
+$service_requests = $mysqli->query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +51,6 @@ else {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Information</title>
     <style>
-        /* General styles */
         * {
             margin: 0;
             padding: 0;
@@ -268,7 +271,7 @@ else {
             <p><span>Username:</span> <?php echo @$user_details['Username'] ?></p>
             <p><span>Email:</span> <?php echo @$user_details['Email'] ?></p>
             <p><span>Notification Preferences:</span> Email, SMS</p>
-            <p><span>Registration Date:</span> 2024-11-01</p>
+            <p><span>Registration Date:</span> <?php echo @$user_details['date_registered'] ?></p>
         </div>
 
         <div class="reque-info">
@@ -284,27 +287,24 @@ else {
             </thead>
             <tbody>
                 <!-- Example rows for demonstration -->
-                <tr>
-                    <td>001</td>
-                    <td>Passport Renewal</td>
-                    <td>Immigration</td>
-                    <td>In Progress</td>
-                    <td><button class="rbutton">Review</button></td>
-                </tr>
-                <tr>
-                    <td>002</td>
-                    <td>Driving License</td>
-                    <td>Transport</td>
-                    <td>Pending</td>
-                    <td><button class="rbutton">Review</button></td>
-                </tr>
-                <tr>
-                    <td>003</td>
-                    <td>Citizenship Verification</td>
-                    <td>Public Info</td>
-                    <td>Completed</td>
-                    <td><button class="rbutton">Review</button></td>
-                </tr>
+                <?php
+
+                if(isset($service_requests)) {
+                    while($service_request = $service_requests->fetch_assoc()) {
+                        echo "
+                            <tr>
+                                <td>". $service_request['RequestID'] ."</td>
+                                <td>". $service_request['ServiceType'] ."</td>
+                                <td>Under Construction</td>
+                                <td>". $service_request['RequestStatus'] ."</td>
+                                <td><button class='rbutton'>Review</button></td>
+                            </tr>
+                        ";
+                    }
+                }
+
+                ?>
+                
                 <!-- Add more rows dynamically as needed -->
             </tbody>
         </table>
@@ -322,7 +322,7 @@ else {
     </div>
 
     <!-- Service Modal -->
-    <div class="modal" id="serviceModal">
+    <div class="modal" id="serviceModal" style="display: none;">
         <form method="post">
             <div class="modal-content">
                 <h2>Service Request</h2>
@@ -334,7 +334,7 @@ else {
     </div>
 
     <!-- Confirmation Modal -->
-    <div class="modal" id="confirmationModal">
+    <div class="modal" id="confirmationModal" style="display: none;">
         <div class="modal-content">
             <h2>Request Successful</h2>
             <p id="confirmationMessage"></p>

@@ -1,6 +1,10 @@
 <?php
 require_once('includes/db.php');
 
+if(!isset($_SESSION['user_id'])) {
+    header('Location: user_login.php');
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mysqli = connect();
 

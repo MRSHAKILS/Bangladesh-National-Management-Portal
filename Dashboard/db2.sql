@@ -86,6 +86,7 @@ CREATE TABLE `users` (
   `Email` varchar(100) DEFAULT NULL,
   `NotificationPreferences` varchar(50) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL
+  `date_registered` DATETIME CURRENT_TIMESTAMP,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -106,7 +107,7 @@ INSERT INTO `users` (`UserID`, `FullName`, `Username`, `Password`, `Email`, `Not
 --
 
 CREATE TABLE `governmentofficial` (
-  `OfficialID` int(11) NOT NULL,
+  `OfficialID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `Username` varchar(50) NOT NULL UNIQUE,
   `FullName` varchar(100) NOT NULL,
   `Password` varchar(255) NOT NULL,
@@ -210,7 +211,7 @@ CREATE TABLE `servicerequest` (
   `RequestID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `CitizenID` int(12) NOT NULL,
   `ServiceID` int(11) DEFAULT NULL,
-  `RequestStatus` varchar(50) DEFAULT NULL,
+  `RequestStatus` varchar(50) NOT NULL DEFAULT 'Pending',
   `RequestDescription` text DEFAULT NULL,
   `SupportingEvidence` text DEFAULT NULL,
 

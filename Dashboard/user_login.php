@@ -33,8 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the user exists
     if ($result->num_rows > 0) {
         // User exists, set session variables
-        $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $user;
+        $_SESSION['user_id'] = $result->fetch_assoc()['UserID'];
         header("Location: user.php"); // Redirect to user dashboard
         exit;
     } else {
