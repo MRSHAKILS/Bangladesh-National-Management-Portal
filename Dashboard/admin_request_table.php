@@ -122,12 +122,8 @@
         }
 
 
-    /* Approve button styles */
-        .Approve-btn-container {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 1rem;
-        }
+        /* Approve button styles */
+        
         .Approve_btn {
             background: #EE222A;
             font-family: inherit;
@@ -196,6 +192,8 @@
                     <th>Department</th>
                     <th>User ID</th>
                     <th>Request Status</th>
+                    <th>Confirm</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -206,29 +204,18 @@
                     <td>Immigration</td>
                     <td>U12345</td>
                     <td>In Progress</td>
+                    <td><!-- Approve Button -->
+                        <div class="Approve-btn-container">
+                            <button class="Approve_btn">Approve</button>
+                        </div>
+                    </td>
                 </tr>
-                <tr>
-                    <td>002</td>
-                    <td>Driving License</td>
-                    <td>Transport</td>
-                    <td>U23456</td>
-                    <td>Pending</td>
-                </tr>
-                <tr>
-                    <td>003</td>
-                    <td>Citizenship Verification</td>
-                    <td>Public Info</td>
-                    <td>U34567</td>
-                    <td>Completed</td>
-                </tr>
+                
                 <!-- Add more rows dynamically as needed -->
             </tbody>
         </table>
 
-        <!-- Approve Button -->
-        <div class="Approve-btn-container">
-            <button class="Approve_btn">Approve</button>
-        </div>
+        
     </div>
 
 </body>

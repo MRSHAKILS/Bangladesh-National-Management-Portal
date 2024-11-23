@@ -8,6 +8,9 @@ if(isset($_SESSION['user_id'])) {
 } else if(isset($_SESSION['official_id'])) {
     session_unset();
     header('Location: ./official_login.php');
+} else if(isset($_SESSION['admin_id'])) {
+    session_unset();
+    header('Location: ./admin_login.php');
 } else {
     header('Location: ./dashboard.php');
 }
