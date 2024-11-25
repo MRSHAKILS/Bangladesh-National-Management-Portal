@@ -96,3 +96,6 @@ CREATE TABLE `admin` (
 INSERT INTO services (ServiceType) VALUES ('Passport');
 INSERT INTO services (ServiceType) VALUES ('Transport');
 INSERT INTO services (ServiceType) VALUES ('Citizenship');
+
+
+
