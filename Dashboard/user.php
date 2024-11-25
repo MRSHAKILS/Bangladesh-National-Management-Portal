@@ -270,7 +270,7 @@ $service_requests = $mysqli->query($sql);
             <p><span>Full Name:</span> <?php echo @$user_details['FullName'] ?></p>
             <p><span>Username:</span> <?php echo @$user_details['Username'] ?></p>
             <p><span>Email:</span> <?php echo @$user_details['Email'] ?></p>
-            <p><span>Notification Preferences:</span> Email, SMS</p>
+            <p><span>Notification Preferences:</span> <?php echo @$user_notification ['notification']?> Email, SMS</p>
             <p><span>Registration Date:</span> <?php echo @$user_details['date_registered'] ?></p>
         </div>
 
