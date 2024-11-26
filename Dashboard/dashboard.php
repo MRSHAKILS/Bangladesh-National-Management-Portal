@@ -139,5 +139,6 @@ require_once('includes/db.php');
         // Automatically change testimonial every second
         setInterval(nextTestimonial, 1000);
     </script>
+    
 </body>
 </html>
