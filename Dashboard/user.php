@@ -303,9 +303,7 @@ $service_requests = $mysqli->query($sql);
                     }
                 }
 
-                ?>
-                
-                <!-- Add more rows dynamically as needed -->
+                ?>                
             </tbody>
         </table>
         </div>
