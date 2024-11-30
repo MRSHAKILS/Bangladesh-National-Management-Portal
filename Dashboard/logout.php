@@ -2,17 +2,24 @@
 
 require_once('includes/db.php');
 
-if(isset($_SESSION['user_id'])) {
-    session_unset();
+// Start the session
+session_start();
+
+// Check and handle logout logic
+if (isset($_SESSION['user_id'])) {
+    session_destroy(); // Destroy the session
     header('Location: ./user_login.php');
-} else if(isset($_SESSION['official_id'])) {
-    session_unset();
+    exit(); // Ensure script execution stops
+} else if (isset($_SESSION['official_id'])) {
+    session_destroy();
     header('Location: ./official_login.php');
-} else if(isset($_SESSION['admin_username'])) {
-    session_unset();
+    exit();
+} else if (isset($_SESSION['admin_username'])) {
+    session_destroy();
     header('Location: ./admin_login.php');
+    exit();
 } else {
     header('Location: ./dashboard.php');
+    exit();
 }
-
 ?>

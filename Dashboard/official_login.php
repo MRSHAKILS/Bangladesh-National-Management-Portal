@@ -151,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Signup Link -->
     <div class="signup-link">
-        <p>Log in as an Admin <a href="admin_login.php"> here</a></p>
+        <p>Sign in as an Admin <a href="admin_login.php"> here</a></p>
     </div>
 </div>
 

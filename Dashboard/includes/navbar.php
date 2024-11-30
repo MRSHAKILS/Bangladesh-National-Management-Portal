@@ -1,4 +1,6 @@
 
+
+
 <style>
     /* Header styles */
     .header {
@@ -101,6 +103,7 @@
     overflow: hidden;
     box-shadow: var(--btn-shadow);
     border-radius: 20px;
+    margin-left: 20px;
   }
 
   .ui-btn span {
@@ -332,10 +335,17 @@
             </div>
             <ul class="nav-links">
                 <li><a href="#home" onclick="window.location.href='dashboard.php';">Home</a></li>
-                <li><a href="#services">Services</a></li>
+                <li><a href="#services" >Services</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
+             <!-- Conditional Logout Button -->
+              <?php
+              $currentPage = basename($_SERVER['PHP_SELF']);
+              if (in_array($currentPage, ['user.php', 'official_request_table.php', 'admin_request_table.php'])) {
+                  echo '<button class="ui-btn" onclick="window.location.href=\'dashboard.php\';"><span> Sign out</span></button>';
+              }
+              ?>
         </nav>
     </div>
 </header>

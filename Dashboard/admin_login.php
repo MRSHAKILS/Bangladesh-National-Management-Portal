@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Signup Link -->
     <div class="signup-link">
-        <p>Don't have Admin access? <a href="official_login.php">Officials Sign in here</a></p>
+        <p>Sign in as an Official <a href="official_login.php"> here</a></p>
     </div>
 </div>
 
