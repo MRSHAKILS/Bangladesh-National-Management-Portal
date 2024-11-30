@@ -68,7 +68,7 @@
                 <a href="https://www.facebook.com/shakillinit/"><i class="fab fa-facebook"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
                 <a href="https://www.linkedin.com/in/shakil-ahmed-cs/"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/shakillinit_/"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
 </footer>

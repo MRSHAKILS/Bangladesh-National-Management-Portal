@@ -224,13 +224,18 @@ $service_requests = $mysqli->query($sql);
         <?php require_once('includes/navbar.php'); ?>
     </header>
 
+        <!-- Searchbar Section -->
     <div class="search_container">
         <h1>Official Dashboard</h1>
+        <form method="GET">
             <div class="search-bar">
-                <input type="text" placeholder="Search services...">
-                <button><i class="fas fa-search"></i> Search</button>
+                <input type="text" name="search_query" placeholder="Search services..." value="<?php echo isset($_GET['search_query']) ? htmlspecialchars($_GET['search_query']) : ''; ?>">
+                <button type="submit"><i class="fas fa-search"></i> Search</button>
             </div>
+        </form>
     </div>
+        
+  
 
     <!-- Main Content Section -->
     <div class="container">
