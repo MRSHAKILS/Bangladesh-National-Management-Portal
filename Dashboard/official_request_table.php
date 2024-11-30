@@ -248,13 +248,21 @@ $service_requests = $mysqli->query($sql);
         <!-- Searchbar Section -->
     <div class="search_container">
         <h1>Official Dashboard</h1>
-        <form method="GET">
+        <form method="GET" id="searchForm">
             <div class="search-bar">
-                <input type="text" name="search_query" placeholder="Search services..." value="<?php echo isset($_GET['search_query']) ? htmlspecialchars($_GET['search_query']) : ''; ?>">
+                <input 
+                    type="text" 
+                    name="search_query" 
+                    id="searchInput" 
+                    placeholder="Search services..." 
+                    value="<?php echo isset($_GET['search_query']) ? htmlspecialchars($_GET['search_query']) : ''; ?>"
+                >
+                <button type="button" id="clearSearch" style="display: none;">&#10006;</button>
                 <button type="submit"><i class="fas fa-search"></i> Search</button>
             </div>
         </form>
     </div>
+
         
   
 
@@ -301,5 +309,29 @@ $service_requests = $mysqli->query($sql);
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const clearButton = document.getElementById('clearSearch');
+            const searchForm = document.getElementById('searchForm');
+
+            // Show or hide the clear button based on input
+            searchInput.addEventListener('input', () => {
+                clearButton.style.display = searchInput.value ? 'block' : 'none';
+            });
+
+            // Clear the search input and reset the form
+            clearButton.addEventListener('click', () => {
+                searchInput.value = '';
+                clearButton.style.display = 'none';
+                searchForm.submit(); // Submit the form to reset the filter
+            });
+
+            // Trigger input event on page load to set the initial state
+            searchInput.dispatchEvent(new Event('input'));
+        });
+    </script>
+
 </body>
 </html>
