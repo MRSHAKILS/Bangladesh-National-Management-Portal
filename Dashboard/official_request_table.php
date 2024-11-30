@@ -53,9 +53,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 $sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID JOIN department d ON s.DepartmentID = d.DepartmentID WHERE RequestStatus <> 'Approved'";
 $service_requests = $mysqli->query($sql);
 
-// searchbar
+        // searchbar
 
-        // Get the search query if provided
         $search_query = isset($_GET['search_query']) ? $mysqli->real_escape_string($_GET['search_query']) : '';
 
         // Base SQL query

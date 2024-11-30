@@ -21,6 +21,26 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 $sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID JOIN department d ON s.DepartmentID = d.DepartmentID WHERE RequestStatus <> 'Approved'";
 $service_requests = $mysqli->query($sql);
 
+    // searchbar
+
+    $search_query = isset($_GET['search_query']) ? $mysqli->real_escape_string($_GET['search_query']) : '';
+
+    // Base SQL query
+    $sql = "SELECT * FROM serviceRequest sr 
+            JOIN services s ON sr.ServiceID = s.ServiceID 
+            JOIN department d ON s.DepartmentID = d.DepartmentID 
+            WHERE RequestStatus <> 'Approved'";
+
+    // Modify the query if a search term is provided
+    if (!empty($search_query)) {
+        $sql .= " AND (s.ServiceType LIKE '%$search_query%' OR 
+                    d.DepartmentName LIKE '%$search_query%' OR 
+                    sr.CitizenID LIKE '%$search_query%' OR
+                    sr.RequestID LIKE '%$search_query%')";
+    }
+
+    $service_requests = $mysqli->query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -199,12 +219,15 @@ $service_requests = $mysqli->query($sql);
         <?php require_once('includes/navbar.php'); ?>
     </header>
     
+    <!-- Searchbar Section -->
     <div class="search_container">
         <h1>Admin Dashboard</h1>
-        <div class="search-bar">
-            <input type="text" placeholder="Search services...">
-            <button><i class="fas fa-search"></i> Search</button>
+        <form method="GET">
+            <div class="search-bar">
+                <input type="text" name="search_query" placeholder="Search services..." value="<?php echo isset($_GET['search_query']) ? htmlspecialchars($_GET['search_query']) : ''; ?>">
+                <button type="submit"><i class="fas fa-search"></i> Search</button>
             </div>
+        </form>
     </div>
 
     <!-- Main Content Section -->
