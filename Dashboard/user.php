@@ -26,6 +26,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 } 
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $requestID = $_POST['request_id'];
+            $serviceID = $_POST['service_id'];
+            $userID = $_POST['user_id'];
+            $review = $_POST['review'];
+
+            $sql = "INSERT INTO review (RequestID, UserID, ServiceID, Review) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("iiis", $requestID, $userID, $serviceID, $review);
+
+                if ($stmt->execute()) {
+                    echo "Review submitted successfully!";
+                } else {
+                    echo "Error: " . $stmt->error;
+                }
+            $stmt->close();
+            $conn->close();
+        }
+
 $user_username = $_SESSION['username'];
 $sql = "SELECT * FROM users WHERE Username = '$user_username'";
 $response = $mysqli->query($sql);
@@ -215,7 +234,7 @@ $service_requests = $mysqli->query($sql);
         }
 
         /* Review Button */
-        .rbutton {
+        .review-btn {
             cursor: pointer;
             position: relative;
             padding: 10px 24px;
@@ -229,7 +248,7 @@ $service_requests = $mysqli->query($sql);
             overflow: hidden;
         }
 
-        .rbutton::before {
+        .review-btn::before {
             content: '';
             position: absolute;
             inset: 0;
@@ -243,17 +262,17 @@ $service_requests = $mysqli->query($sql);
             transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
         }
 
-       .rbutton:hover::before {
+       .review-btn:hover::before {
             scale: 3;
         }
 
-        .rbutton:hover {
+        .review-btn:hover {
             color: #212121;
             scale: 1.1;
             box-shadow: 0 0px 20px rgba(193, 163, 98,0.4);
         }
 
-        .rbutton:active {
+        .review-btn:active {
             scale: 1;
         }
 
@@ -297,7 +316,9 @@ $service_requests = $mysqli->query($sql);
                                 <td>". $service_request['ServiceType'] ."</td>
                                 <td>". $service_request['DepartmentName'] ."</td>
                                 <td>". $service_request['RequestStatus'] ."</td>
-                                <td><button class='rbutton'>Review</button></td>
+                                <td><button class='btn-primary' id='review-btn' data-request-id='". $service_request['RequestID'] ."' data-service-id='". $service_request['ServiceID'] ."' data-user-id='". $service_request['UserID'] ."'>
+                                    Write Review</button>
+                                </td>
                             </tr>
                         ";
                     }
@@ -308,6 +329,31 @@ $service_requests = $mysqli->query($sql);
         </table>
         </div>
     </div>
+            <!-- Review Modal -->
+        <div class="modal" id="reviewModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Write a Review</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="review-form">
+                            <div class="form-group">
+                                <label for="review-text">Your Review</label>
+                                <textarea class="form-control" id="review-text" name="review" rows="4"></textarea>
+                            </div>
+                            <input type="hidden" id="request-id" name="request_id">
+                            <input type="hidden" id="service-id" name="service_id">
+                            <input type="hidden" id="user-id" name="user_id">
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <!-- Request Service Section -->
     <div class="request-service">
@@ -386,6 +432,38 @@ $service_requests = $mysqli->query($sql);
                 }, 1000);
             });
         }
+
+                    document.getElementById('review-btn').addEventListener('click', function () {
+                const requestID = this.getAttribute('data-request-id');
+                const serviceID = this.getAttribute('data-service-id');
+                const userID = this.getAttribute('data-user-id');
+                
+                document.getElementById('request-id').value = requestID;
+                document.getElementById('service-id').value = serviceID;
+                document.getElementById('user-id').value = userID;
+
+                const modal = new bootstrap.Modal(document.getElementById('reviewModal'));
+                modal.show();
+            });
+
+            document.getElementById('review-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+
+                fetch('submit_review.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
+                    modal.hide();
+                })
+                .catch(error => console.error('Error:', error));
+            });
+
         </script>
 </body>
 </html>
