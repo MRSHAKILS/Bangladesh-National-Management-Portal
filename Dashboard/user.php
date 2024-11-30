@@ -26,25 +26,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 } 
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $requestID = $_POST['request_id'];
-            $serviceID = $_POST['service_id'];
-            $userID = $_POST['user_id'];
-            $review = $_POST['review'];
-
-            $sql = "INSERT INTO review (RequestID, UserID, ServiceID, Review) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("iiis", $requestID, $userID, $serviceID, $review);
-
-                if ($stmt->execute()) {
-                    echo "Review submitted successfully!";
-                } else {
-                    echo "Error: " . $stmt->error;
-                }
-            $stmt->close();
-            $conn->close();
-        }
-
 $user_username = $_SESSION['username'];
 $sql = "SELECT * FROM users WHERE Username = '$user_username'";
 $response = $mysqli->query($sql);
@@ -80,12 +61,14 @@ $service_requests = $mysqli->query($sql);
         body {
             background-color: #f4f4f4;
             color: #333;
-            padding: 2rem;
+        }
+        .section{
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            height: 100vh;
+            gap: 1rem;
+            margin: 1rem;
         }
         .container {
             display: flex;
@@ -281,108 +264,88 @@ $service_requests = $mysqli->query($sql);
     </style>
 </head>
 <body>
+    <!-- Header Section -->
+    <header class="header">
+        <?php require_once('includes/navbar.php'); ?>
+    </header>
+     
     <!-- User Information Section -->
-    <div class="container">
-        <div class="user-info">
-            <h1>User Information</h1>
-            <p><span>User ID:</span> <?php echo @$user_details['UserID'] ?></p>
-            <p><span>Full Name:</span> <?php echo @$user_details['FullName'] ?></p>
-            <p><span>Username:</span> <?php echo @$user_details['Username'] ?></p>
-            <p><span>Email:</span> <?php echo @$user_details['Email'] ?></p>
-            <p><span>Notification Preferences:</span> Email, SMS</p>
-            <p><span>Registration Date:</span> <?php echo @$user_details['date_registered'] ?></p>
-        </div>
+     <div class="section">
+        <div class="container">
+            <div class="user-info">
+                <h1>User Information</h1>
+                <p><span>User ID:</span> <?php echo @$user_details['UserID'] ?></p>
+                <p><span>Full Name:</span> <?php echo @$user_details['FullName'] ?></p>
+                <p><span>Username:</span> <?php echo @$user_details['Username'] ?></p>
+                <p><span>Email:</span> <?php echo @$user_details['Email'] ?></p>
+                <p><span>Notification Preferences:</span> Email, SMS</p>
+                <p><span>Registration Date:</span> <?php echo @$user_details['date_registered'] ?></p>
+            </div>
 
-        <div class="reque-info">
-        <table class="user-request-table">
-            <thead>
-                <tr>
-                    <th>Request ID</th>
-                    <th>Request Type</th>
-                    <th>Department</th>
-                    <th>Request Status</th>
-                    <th>Leave a review</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Example rows for demonstration -->
-                <?php
+            <div class="reque-info">
+            <table class="user-request-table">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Request Type</th>
+                        <th>Department</th>
+                        <th>Request Status</th>
+                        <th>Leave a review</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example rows for demonstration -->
+                    <?php
 
-                if(isset($service_requests)) {
-                    while($service_request = $service_requests->fetch_assoc()) {
-                        echo "
-                            <tr>
-                                <td>". $service_request['RequestID'] ."</td>
-                                <td>". $service_request['ServiceType'] ."</td>
-                                <td>". $service_request['DepartmentName'] ."</td>
-                                <td>". $service_request['RequestStatus'] ."</td>
-                                <td><button class='btn-primary' id='review-btn' data-request-id='". $service_request['RequestID'] ."' data-service-id='". $service_request['ServiceID'] ."' data-user-id='". $service_request['UserID'] ."'>
-                                    Write Review</button>
-                                </td>
-                            </tr>
-                        ";
+                    if(isset($service_requests)) {
+                        while($service_request = $service_requests->fetch_assoc()) {
+                            echo "
+                                <tr>
+                                    <td>". $service_request['RequestID'] ."</td>
+                                    <td>". $service_request['ServiceType'] ."</td>
+                                    <td>". $service_request['DepartmentName'] ."</td>
+                                    <td>". $service_request['RequestStatus'] ."</td>
+                                    <td><button class='review-btn'>Review</button></td>
+                                </tr>
+                            ";
+                        }
                     }
-                }
 
-                ?>                
-            </tbody>
-        </table>
+                    ?>                
+                </tbody>
+            </table>
+            </div>
         </div>
-    </div>
-            <!-- Review Modal -->
-        <div class="modal" id="reviewModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
+
+        <!-- Request Service Section -->
+        <div class="request-service">
+            <h2>Request Service</h2>
+            <div class="buttons">
+                <button onclick="handleService('Passport')">Passport</button>
+                <button onclick="handleService('Transport')">Transport</button>
+                <button onclick="handleService('Citizenship')">Citizenship</button>
+            </div>
+        </div>
+
+        <!-- Service Modal -->
+        <div class="modal" id="serviceModal" style="display: none;">
+            <form method="post">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Write a Review</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="review-form">
-                            <div class="form-group">
-                                <label for="review-text">Your Review</label>
-                                <textarea class="form-control" id="review-text" name="review" rows="4"></textarea>
-                            </div>
-                            <input type="hidden" id="request-id" name="request_id">
-                            <input type="hidden" id="service-id" name="service_id">
-                            <input type="hidden" id="user-id" name="user_id">
-                            <button type="submit" class="btn btn-primary">Submit Review</button>
-                        </form>
-                    </div>
+                    <h2>Service Request</h2>
+                    <p id="modalMessage"></p>
+                    <button type="submit" id="confirmButton" name="service_request"  value="">Confirm</button>
+                    <button type="button" id="cancelButton">Cancel</button>
                 </div>
-            </div>
+            </form>
         </div>
 
-    <!-- Request Service Section -->
-    <div class="request-service">
-        <h2>Request Service</h2>
-        <div class="buttons">
-            <button onclick="handleService('Passport')">Passport</button>
-            <button onclick="handleService('Transport')">Transport</button>
-            <button onclick="handleService('Citizenship')">Citizenship</button>
-        </div>
-    </div>
-
-    <!-- Service Modal -->
-    <div class="modal" id="serviceModal" style="display: none;">
-        <form method="post">
+        <!-- Confirmation Modal -->
+        <div class="modal" id="confirmationModal" style="display: none;">
             <div class="modal-content">
-                <h2>Service Request</h2>
-                <p id="modalMessage"></p>
-                <button type="submit" id="confirmButton" name="service_request"  value="">Confirm</button>
-                <button type="button" id="cancelButton">Cancel</button>
+                <h2>Request Successful</h2>
+                <p id="confirmationMessage"></p>
+                <button onclick="closeModal('confirmationModal')">OK</button>
             </div>
-        </form>
-    </div>
-
-    <!-- Confirmation Modal -->
-    <div class="modal" id="confirmationModal" style="display: none;">
-        <div class="modal-content">
-            <h2>Request Successful</h2>
-            <p id="confirmationMessage"></p>
-            <button onclick="closeModal('confirmationModal')">OK</button>
         </div>
     </div>
 
@@ -432,38 +395,6 @@ $service_requests = $mysqli->query($sql);
                 }, 1000);
             });
         }
-
-                    document.getElementById('review-btn').addEventListener('click', function () {
-                const requestID = this.getAttribute('data-request-id');
-                const serviceID = this.getAttribute('data-service-id');
-                const userID = this.getAttribute('data-user-id');
-                
-                document.getElementById('request-id').value = requestID;
-                document.getElementById('service-id').value = serviceID;
-                document.getElementById('user-id').value = userID;
-
-                const modal = new bootstrap.Modal(document.getElementById('reviewModal'));
-                modal.show();
-            });
-
-            document.getElementById('review-form').addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                const formData = new FormData(this);
-
-                fetch('submit_review.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.text())
-                .then(data => {
-                    alert(data);
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
-                    modal.hide();
-                })
-                .catch(error => console.error('Error:', error));
-            });
-
         </script>
 </body>
 </html>
