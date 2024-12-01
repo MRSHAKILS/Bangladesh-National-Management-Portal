@@ -14,21 +14,18 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $sql = "";
         
-        // Loop through the Approved checkboxes
-        if (isset($_POST['Approved'])) {
-            foreach ($_POST['Approved'] as $requestID => $approved) {
-
-                $sql .= "UPDATE servicerequest SET RequestStatus = 'Pending Approval' WHERE RequestID = $requestID;";
-            }
+         // Update the RequestStatus based on Approved and not-Approved checkboxes
+    if (isset($_POST['Approved'])) {
+        foreach ($_POST['Approved'] as $requestID => $value) {
+            $sql .= "UPDATE servicerequest SET RequestStatus = 'Pending Approval' WHERE RequestID = $requestID;";
         }
+    }
 
-        // Loop through the NotApproved checkboxes
-        if (isset($_POST['not-Approved'])) {
-            foreach ($_POST['not-Approved'] as $requestID => $notApproved) {
-
-                $sql .= "UPDATE servicerequest SET RequestStatus = 'Pending' WHERE RequestID = $requestID;";
-            }
+    if (isset($_POST['not-Approved'])) {
+        foreach ($_POST['not-Approved'] as $requestID => $value) {
+            $sql .= "UPDATE servicerequest SET RequestStatus = 'Pending' WHERE RequestID = $requestID;";
         }
+    }
 
         // Execute all the queries at once using multi_query
         if ($mysqli->multi_query($sql)) {
@@ -287,12 +284,14 @@ $service_requests = $mysqli->query($sql);
                         while($service_request = $service_requests->fetch_assoc()) {
                             echo "
                                 <tr>
-                                    <td>". $service_request['RequestID'] ."</td>
-                                    <td>". $service_request['ServiceType'] ."</td>
-                                    <td>". $service_request['DepartmentName'] ."</td>
-                                    <td>". $service_request['CitizenID'] ."</td>
-                                    <td><input type='checkbox' name='Approved[" . $service_request['RequestID'] . "]' ". ($service_request['RequestStatus'] == 'Pending Approval' ? 'checked' : '')."></td>
-                                    <td><input type='checkbox' name='not-Approved[" . $service_request['RequestID'] . "]' ". ($service_request['RequestStatus'] == 'Pending' ? 'checked' : '')."></td>
+                                    <td>" . $service_request['RequestID'] . "</td>
+                                    <td>" . $service_request['ServiceType'] . "</td>
+                                    <td>" . $service_request['DepartmentName'] . "</td>
+                                    <td>" . $service_request['CitizenID'] . "</td>
+                                    <td><input type='checkbox' name='Approved[" . $service_request['RequestID'] . "]' >
+                                    </td>
+                                    <td><input type='checkbox' name='not-Approved[" . $service_request['RequestID'] . "]' ></td>
+                                
                                 </tr>
                             ";
                         }
@@ -311,6 +310,7 @@ $service_requests = $mysqli->query($sql);
     </div>
 
     <script>
+        // Searchbar functionality
         document.addEventListener('DOMContentLoaded', function () {
             const searchInput = document.getElementById('searchInput');
             const clearButton = document.getElementById('clearSearch');
@@ -331,6 +331,28 @@ $service_requests = $mysqli->query($sql);
             // Trigger input event on page load to set the initial state
             searchInput.dispatchEvent(new Event('input'));
         });
+
+
+        // checkbox functionality
+        document.addEventListener('DOMContentLoaded', function () {
+        // Select all checkboxes in the table
+        const table = document.querySelector('.official-service-table');
+        const checkboxes = table.querySelectorAll('input[type="checkbox"]');
+
+        // Add event listeners to each checkbox
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                const row = this.closest('tr'); // Find the row of the current checkbox
+                const rowCheckboxes = row.querySelectorAll('input[type="checkbox"]');
+
+                // Uncheck the other checkbox in the same row
+                rowCheckboxes.forEach(cb => {
+                    if (cb !== this) cb.checked = false;
+                });
+            });
+        });
+    });
+
     </script>
 
 </body>
