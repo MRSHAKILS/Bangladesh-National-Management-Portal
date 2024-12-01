@@ -280,6 +280,7 @@ $service_requests = $mysqli->query($sql);
                 <p><span>Email:</span> <?php echo @$user_details['Email'] ?></p>
                 <p><span>Notification Preferences:</span> Email, SMS</p>
                 <p><span>Registration Date:</span> <?php echo @$user_details['date_registered'] ?></p>
+                <p><button>Edit</button></p>
             </div>
 
             <div class="reque-info">
