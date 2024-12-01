@@ -4,6 +4,7 @@ require_once('includes/db.php');
 
 $mysqli = connect();
 
+// Service Request 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(isset($_POST['service_request'])) {
         $request_type = $_POST['service_request'];
@@ -26,21 +27,43 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 } 
 
-$user_username = $_SESSION['username'];
-$sql = "SELECT * FROM users WHERE Username = '$user_username'";
-$response = $mysqli->query($sql);
+        // Edit User Information
+        $user_username = $_SESSION['username'];
+        $sql = "SELECT * FROM users WHERE Username = '$user_username'";
+        $response = $mysqli->query($sql);
 
-$user_details = $response->fetch_assoc();
+        $user_details = $response->fetch_assoc();
 
-if(!isset($user_details['type'])) {
-    header('Location: user_signup_modal.php');
-}
+        if(!isset($user_details['type'])) {
+            header('Location: user_signup_modal.php');
+        }
 
-$sql = "SELECT CitizenID FROM citizen WHERE UserID = ". $_SESSION['user_id'];
-$citizen_id = $mysqli->query($sql)->fetch_assoc()['CitizenID'];
+        $sql = "SELECT CitizenID FROM citizen WHERE UserID = ". $_SESSION['user_id'];
+        $citizen_id = $mysqli->query($sql)->fetch_assoc()['CitizenID'];
 
-$sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID JOIN department d ON s.DepartmentID = d.DepartmentID WHERE sr.CitizenID = $citizen_id";
-$service_requests = $mysqli->query($sql);
+        $sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID JOIN department d ON s.DepartmentID = d.DepartmentID WHERE sr.CitizenID = $citizen_id";
+        $service_requests = $mysqli->query($sql);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_user_info'])) {
+            var_dump($_POST); // Debugging
+            $user_id = $_POST['user_id'];
+            $full_name = $mysqli->real_escape_string($_POST['full_name']);
+            $email = $mysqli->real_escape_string($_POST['email']);
+            $username = $mysqli->real_escape_string($_POST['username']);
+
+            $update_sql = "
+                UPDATE users 
+                SET FullName = '$full_name', Email = '$email', Username = '$username' 
+                WHERE UserID = $user_id
+            ";
+
+            if ($mysqli->query($update_sql)) {
+                echo "<script>alert('User information updated successfully.');</script>";
+            } else {
+                echo "<script>alert('Error updating user information: " . $mysqli->error . "');</script>";
+            }
+        }
+
 
 ?>
 
@@ -280,8 +303,12 @@ $service_requests = $mysqli->query($sql);
                 <p><span>Email:</span> <?php echo @$user_details['Email'] ?></p>
                 <p><span>Notification Preferences:</span> Email, SMS</p>
                 <p><span>Registration Date:</span> <?php echo @$user_details['date_registered'] ?></p>
-                <p><button>Edit</button></p>
+                <button onclick="openModal('editUserModal')">Edit</button>
+
             </div>
+
+            
+
 
             <div class="reque-info">
             <table class="user-request-table">
@@ -328,6 +355,30 @@ $service_requests = $mysqli->query($sql);
             </div>
         </div>
 
+        <!-- Edit User Info Modal -->
+        <div class="modal" id="editUserModal" style="display: none;">
+            <div class="modal-content">
+                <h2>Edit User Information</h2>
+                <form id="editUserForm" method="post">
+                    <input type="hidden" name="user_id" value="<?php echo @$user_details['UserID']; ?>">
+                    <p>
+                        <label for="editFullName">Full Name:</label>
+                        <input type="text" id="editFullName" name="full_name" value="<?php echo @$user_details['FullName']; ?>">
+                    </p>
+                    <p>
+                        <label for="editEmail">Email:</label>
+                        <input type="email" id="editEmail" name="email" value="<?php echo @$user_details['Email']; ?>">
+                    </p>
+                    <p>
+                        <label for="editUsername">Username:</label>
+                        <input type="text" id="editUsername" name="username" value="<?php echo @$user_details['Username']; ?>">
+                    </p>
+                    <button type="submit" name="save_user_info">Update</button>
+                    <button type="button" onclick="closeModal('editUserModal')">Cancel</button>
+                </form>
+            </div>
+        </div>
+
         <!-- Service Modal -->
         <div class="modal" id="serviceModal" style="display: none;">
             <form method="post">
@@ -364,6 +415,10 @@ $service_requests = $mysqli->query($sql);
         
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
+            const modal = document.getElementById(modalId);
+            console.log(`Opening modal: ${modalId}, current display: ${modal.style.display}`);
+            modal.style.display = 'flex';
+            
         }
 
         function closeModal(modalId) {
@@ -396,6 +451,18 @@ $service_requests = $mysqli->query($sql);
                 }, 1000);
             });
         }
+            document.querySelector('button[onclick="openModal(\'editUserModal\')"]').addEventListener('click', () => {
+            openModal('editUserModal');
+            });
+
+
+       
+
+       
+
+
+
+
         </script>
 </body>
 </html>
