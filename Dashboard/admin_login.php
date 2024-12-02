@@ -136,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <div class="container">
-    <h2>Admin Sign in</h2>
+    <h2>Admin Sign-in</h2>
 
     <!-- Display error message -->
     <?php if (isset($error)): ?>
@@ -152,7 +152,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Signup Link -->
     <div class="signup-link">
-        <p>Sign in as an Official <a href="official_login.php"> here</a></p>
+        <p>Sign in as an <a href="official_login.php">Official</a></p>
+        <br>
+        <br>
+        <a href="dashboard.php">Go back to Dashboard</a>
     </div>
 </div>
 

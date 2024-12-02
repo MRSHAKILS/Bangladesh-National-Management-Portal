@@ -337,8 +337,8 @@ $service_requests = $mysqli->query($sql);
             <div class="user-info">
                 <h1>User Information</h1>
                 <p><span>User ID:</span> <?php echo @$user_details['UserID'] ?></p>
-                <p><span>Full Name:</span> <?php echo @$user_details['FullName'] ?></p>
                 <p><span>Username:</span> <?php echo @$user_details['Username'] ?></p>
+                <p><span>Full Name:</span> <?php echo @$user_details['FullName'] ?></p>
                 <p><span>Email:</span> <?php echo @$user_details['Email'] ?></p>
                 <p><span>User Type:</span> <?php echo @$user_details['type'] ?></p>
                 <p><span>Phone Number:</span> <?php echo @$user_details['ContactInfo'] ?></p>

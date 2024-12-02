@@ -138,7 +138,10 @@ if (isset($_POST['signup'])) {
             <button type="submit" name="signup">Sign Up</button>
         </form>
         <div class="user-login-link">
-            <p>Already have an account? <a href="user_login.php">Log in here</a></p>
+            <p>Already have an account? <a href="user_login.php">Sign-in</a></p>
+            <br>
+            <br>
+            <a href="dashboard.php">Go back to Dashboard Here</a>
         </div>
     </div>
 </body>
