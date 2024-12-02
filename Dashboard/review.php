@@ -1,6 +1,7 @@
 <?php
 // Include the database connection file
 require_once 'db.php'; // Adjust this path if needed
+?>
 
 try {
     // Fetch the necessary fields from the review table
