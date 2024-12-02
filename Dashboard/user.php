@@ -30,9 +30,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $full_name = $mysqli->real_escape_string($_POST['full_name']);
         $email = $mysqli->real_escape_string($_POST['email']);
         $username = $mysqli->real_escape_string($_POST['username']);
-        $phone_number = $mysqli->real_escape_string($_POST['phone_number']);
+        $phone_number = $mysqli->real_escape_string($_POST['ContactInfo']);
         $address = $mysqli->real_escape_string($_POST['address']);
-        $city = $mysqli->real_escape_string($_POST['city']);
         $country = $mysqli->real_escape_string($_POST['country']);
         $postal_code = $mysqli->real_escape_string($_POST['postal_code']);
         
@@ -344,7 +343,7 @@ $service_requests = $mysqli->query($sql);
                 <p><span>Email:</span> <?php echo @$user_details['Email'] ?></p>
                 <p><span>User Type:</span> <?php echo @$user_details['type'] ?></p>
                 <p><span>Phone Number:</span> <?php echo @$user_details['ContactInfo'] ?></p>
-                <p><span>Address:</span> <?php echo @$user_details['addressPermanent'] ?></p>
+                <p><span>Address:</span> <?php echo @$user_details['addressPresent'] ?></p>
                 <p><span>Nationality:</span> <?php echo @$user_details['Nationality'] ?></p>
                 <p><span>Notification Preferences:</span> Email, SMS</p>
                 <p><span>Registration Date:</span> <?php echo @$user_details['date_registered'] ?></p>
@@ -420,19 +419,16 @@ $service_requests = $mysqli->query($sql);
                     </p>
                     <p>
                         <label for="editPhoneNumber">Phone Number:</label>
-                        <input type="text" id="editPhoneNumber" name="phone_number" value="<?php echo @$user_details['PhoneNumber']; ?>">
+                        <input type="text" id="editPhoneNumber" name="ContactInfo" value="<?php echo @$user_details['PhoneNumber']; ?>">
                     </p>
                     <p>
                         <label for="editAddress">Address:</label>
-                        <input type="text" id="editAddress" name="address" value="<?php echo @$user_details['Address']; ?>">
+                        <input type="text" id="editAddress" name="addressPresent" value="<?php echo @$user_details['Address']; ?>">
                     </p>
-                    <p>
-                        <label for="editCity">City:</label>
-                        <input type="text" id="editCity" name="city" value="<?php echo @$user_details['City']; ?>">
-                    </p>
+                    
                     <p>
                         <label for="editCountry">Country:</label>
-                        <input type="text" id="editCountry" name="country" value="<?php echo @$user_details['Country']; ?>">    
+                        <input type="text" id="editCountry" name="Nationality" value="<?php echo @$user_details['Country']; ?>">    
                     </p>
                     <p>
                         <label for="editPostalCode">Postal Code:</label>

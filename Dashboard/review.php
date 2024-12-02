@@ -26,6 +26,7 @@
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 100px;
         }
         .review {
             border-bottom: 1px solid #ddd;
@@ -42,6 +43,10 @@
     </style>
 </head>
 <body>
+<header class="header">
+        <?php require_once('includes/navbar.php'); ?>
+    </header>
+
     <div class="container">
         <h1>Reviews</h1>
         <?php
@@ -76,5 +81,6 @@
         $mysqli->close();
         ?>
     </div>
+    
 </body>
 </html>
