@@ -174,7 +174,7 @@ $conn->close();
         <p>Don't have an account? <a href="user_signup.php">Sign up</a></p>
         <br>
         <br>
-        <a href="dashboard.php">Go back to Dashboard Here</a>
+        <a href="dashboard.php">Go back to Dashboard</a>
     </div>
 </div>
 

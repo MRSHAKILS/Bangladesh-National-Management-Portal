@@ -141,7 +141,7 @@ if (isset($_POST['signup'])) {
             <p>Already have an account? <a href="user_login.php">Sign-in</a></p>
             <br>
             <br>
-            <a href="dashboard.php">Go back to Dashboard Here</a>
+            <a href="dashboard.php">Go back to Dashboard</a>
         </div>
     </div>
 </body>
