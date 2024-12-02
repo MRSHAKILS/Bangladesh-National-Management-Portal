@@ -1,103 +1,78 @@
 <?php
-// Include the database connection file
-require_once 'db.php'; // Adjust this path if needed
+    require_once 'includes/db.php';
 ?>
 
-try {
-    // Fetch the necessary fields from the review table
-    $query = "
-        SELECT 
-            r.Review, 
-            r.DateSubmitted, 
-            s.ServiceName
-        FROM review r
-        LEFT JOIN services s ON r.ServiceID = s.ServiceID
-        ORDER BY r.DateSubmitted DESC
-    ";
-    $result = $conn->query($query);
-
-    echo "<h1>Service Reviews</h1>";
-
-    if ($result->num_rows > 0) {
-        echo "<table>";
-        echo "<tr>
-                <th>Service Name</th>
-                <th>Review</th>
-                <th>Date Submitted</th>
-              </tr>";
-
-        // Loop through and display each review
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>
-                    <td>{$row['ServiceName']}</td>
-                    <td>{$row['Review']}</td>
-                    <td>{$row['DateSubmitted']}</td>
-                  </tr>";
-        }
-
-        echo "</table>";
-    } else {
-        echo "<p>No reviews found.</p>";
-    }
-} catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
-}
-
-// Close the database connection
-$conn->close();
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Reviews</title>
+    <title>Reviews</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
             background-color: #f4f4f9;
-            color: #333;
         }
-        h1 {
-            text-align: center;
-            color: #444;
-            margin-bottom: 20px;
-        }
-        table {
+        .container {
             width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background: #fff;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        th, td {
-            padding: 12px;
-            text-align: left;
+        .review {
             border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
         }
-        th {
-            background-color: #007BFF;
-            color: white;
+        .review:last-child {
+            border-bottom: none;
         }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        td {
-            vertical-align: top;
-        }
-        p {
-            text-align: center;
-            font-size: 18px;
-            color: #666;
+        .review-date {
+            font-size: 0.9em;
+            color: gray;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Reviews</h1>
+        <?php
+        // Fetch all reviews from the review table
+        $query = "SELECT r.ReviewID, r.Review, r.DateSubmitted, c.CitizenID, s.ServiceID, sr.RequestID 
+                  FROM review r
+                  JOIN citizen c ON r.CitizenID = c.CitizenID
+                  JOIN services s ON r.ServiceID = s.ServiceID
+                  JOIN servicerequest sr ON r.RequestID = sr.RequestID
+                  ORDER BY r.DateSubmitted DESC";
 
+        $result = $conn->query($query);
 
+        // Check if there are reviews
+        if ($result->num_rows > 0) {
+            // Output each review
+            while ($row = $result->fetch_assoc()) {
+                echo "<div class='review'>";
+                echo "<p><strong>Review ID:</strong> " . $row['ReviewID'] . "</p>";
+                echo "<p><strong>Citizen ID:</strong> " . $row['CitizenID'] . "</p>";
+                echo "<p><strong>Service ID:</strong> " . $row['ServiceID'] . "</p>";
+                echo "<p><strong>Request ID:</strong> " . $row['RequestID'] . "</p>";
+                echo "<p>" . htmlspecialchars($row['Review']) . "</p>";
+                echo "<p class='review-date'><strong>Date Submitted:</strong> " . $row['DateSubmitted'] . "</p>";
+                echo "</div>";
+            }
+        } else {
+            echo "<p>No reviews found.</p>";
+        }
+
+        // Close the database connection
+        $conn->close();
+        ?>
+    </div>
 </body>
 </html>
