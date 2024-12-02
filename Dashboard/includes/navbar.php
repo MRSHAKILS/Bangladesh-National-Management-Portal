@@ -336,7 +336,7 @@
             <ul class="nav-links">
                 <li><a href="#home" onclick="window.location.href='dashboard.php';">Home</a></li>
                 <li><a href="#services" >Services</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#review" onclick="window.location.href='review.php';">Reviews</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
              <!-- Conditional Logout Button -->

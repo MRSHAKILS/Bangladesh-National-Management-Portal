@@ -27,6 +27,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 } 
 
+
+
+
+
         // Edit User Information
         $user_username = $_SESSION['username'];
         $sql = "SELECT * FROM users WHERE Username = '$user_username'";
@@ -45,22 +49,49 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $service_requests = $mysqli->query($sql);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_user_info'])) {
-            var_dump($_POST); // Debugging
             $user_id = $_POST['user_id'];
             $full_name = $mysqli->real_escape_string($_POST['full_name']);
             $email = $mysqli->real_escape_string($_POST['email']);
             $username = $mysqli->real_escape_string($_POST['username']);
+            $phone_number = $mysqli->real_escape_string($_POST['phone_number']);
+            $address = $mysqli->real_escape_string($_POST['address']);
+            $city = $mysqli->real_escape_string($_POST['city']);
+            $country = $mysqli->real_escape_string($_POST['country']);
+            $postal_code = $mysqli->real_escape_string($_POST['postal_code']);
 
-            $update_sql = "
-                UPDATE users 
-                SET FullName = '$full_name', Email = '$email', Username = '$username' 
-                WHERE UserID = $user_id
-            ";
-
-            if ($mysqli->query($update_sql)) {
+            
+        
+            // Start a transaction
+            $mysqli->begin_transaction();
+        
+            try {
+                // Update the users table
+                $update_users_sql = "
+                    UPDATE users 
+                    SET Email = '$email', Username = '$username' 
+                    WHERE UserID = $user_id
+                ";
+                if (!$mysqli->query($update_users_sql)) {
+                    throw new Exception("Error updating users table: " . $mysqli->error);
+                }
+        
+                // Update the citizen table
+                $update_citizen_sql = "
+                    UPDATE citizen 
+                    SET FullName = '$full_name', PhoneNumber = '$phone_number', Address = '$address', City = '$city', Country = '$country', PostalCode = '$postal_code' 
+                    WHERE UserID = $user_id
+                ";
+                if (!$mysqli->query($update_citizen_sql)) {
+                    throw new Exception("Error updating citizen table: " . $mysqli->error);
+                }
+        
+                // Commit the transaction
+                $mysqli->commit();
                 echo "<script>alert('User information updated successfully.');</script>";
-            } else {
-                echo "<script>alert('Error updating user information: " . $mysqli->error . "');</script>";
+            } catch (Exception $e) {
+                // Rollback the transaction on error
+                $mysqli->rollback();
+                echo "<script>alert('Error updating user information: " . $e->getMessage() . "');</script>";
             }
         }
 
@@ -222,6 +253,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             background-color: #145014;
         }
 
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
         /* Responsive styles */
         @media (max-width: 768px) {
             .user-request-table, .user-request-table th, .user-request-table td {
@@ -301,6 +338,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <p><span>Full Name:</span> <?php echo @$user_details['FullName'] ?></p>
                 <p><span>Username:</span> <?php echo @$user_details['Username'] ?></p>
                 <p><span>Email:</span> <?php echo @$user_details['Email'] ?></p>
+                <p><span>User Type:</span> <?php echo @$user_details['type'] ?></p>
+                <p><span>Phone Number:</span> <?php echo @$user_details['PhoneNumber'] ?></p>
+                <p><span>Address:</span> <?php echo @$user_details['Address'] ?></p>
+                <p><span>City:</span> <?php echo @$user_details['City'] ?></p>
+                <p><span>Country:</span> <?php echo @$user_details['Country'] ?></p>
+                <p><span>Postal Code:</span> <?php echo @$user_details['PostalCode'] ?></p>
                 <p><span>Notification Preferences:</span> Email, SMS</p>
                 <p><span>Registration Date:</span> <?php echo @$user_details['date_registered'] ?></p>
                 <button onclick="openModal('editUserModal')">Edit</button>
@@ -362,6 +405,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <form id="editUserForm" method="post">
                     <input type="hidden" name="user_id" value="<?php echo @$user_details['UserID']; ?>">
                     <p>
+                        <label for="editUsername">Username:</label>
+                        <input type="text" id="editUsername" name="username" value="<?php echo @$user_details['Username']; ?>">
+                    </p>
+                    <p>
                         <label for="editFullName">Full Name:</label>
                         <input type="text" id="editFullName" name="full_name" value="<?php echo @$user_details['FullName']; ?>">
                     </p>
@@ -370,9 +417,27 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="email" id="editEmail" name="email" value="<?php echo @$user_details['Email']; ?>">
                     </p>
                     <p>
-                        <label for="editUsername">Username:</label>
-                        <input type="text" id="editUsername" name="username" value="<?php echo @$user_details['Username']; ?>">
+                        <label for="editPhoneNumber">Phone Number:</label>
+                        <input type="text" id="editPhoneNumber" name="phone_number" value="<?php echo @$user_details['PhoneNumber']; ?>">
                     </p>
+                    <p>
+                        <label for="editAddress">Address:</label>
+                        <input type="text" id="editAddress" name="address" value="<?php echo @$user_details['Address']; ?>">
+                    </p>
+                    <p>
+                        <label for="editCity">City:</label>
+                        <input type="text" id="editCity" name="city" value="<?php echo @$user_details['City']; ?>">
+                    </p>
+                    <p>
+                        <label for="editCountry">Country:</label>
+                        <input type="text" id="editCountry" name="country" value="<?php echo @$user_details['Country']; ?>">    
+                    </p>
+                    <p>
+                        <label for="editPostalCode">Postal Code:</label>
+                        <input type="text" id="editPostalCode" name="postal_code" value="<?php echo @$user_details['PostalCode']; ?>">
+                    </p>
+
+                    
                     <button type="submit" name="save_user_info">Update</button>
                     <button type="button" onclick="closeModal('editUserModal')">Cancel</button>
                 </form>
@@ -400,6 +465,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <form id="reviewForm">
+            <input type="hidden" name="request_id" id="request_id">
+            <input type="hidden" name="citizen_id" id="citizen_id">
+            <input type="hidden" name="service_id" id="service_id">
+            <label for="review">Review:</label><br>
+            <textarea name="review" id="review" rows="4" cols="50" required></textarea><br><br>
+            <button type="submit">Submit Review</button>
+        </form>
+        </div>
+    </div>
+
+
+
 
 
     
@@ -455,6 +538,75 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             openModal('editUserModal');
             });
 
+
+            $user_username = $_SESSION['username'];
+            $sql = "SELECT * FROM users WHERE Username = '$user_username'";
+
+            // <form id="editUserForm" method="post" onsubmit="return validateForm()">
+
+            function validateForm() {
+                const fullName = document.getElementById('editFullName').value.trim();
+                const email = document.getElementById('editEmail').value.trim();
+                const username = document.getElementById('editUsername').value.trim();
+
+                if (!fullName || !email || !username) {
+                    alert('All fields are required!');
+                    return false;
+                }
+                return true;
+            }
+
+
+            // Modal functionality
+            const modal = document.getElementById("reviewModal");
+            const closeBtn = document.querySelector(".close-btn");
+            const reviewForm = document.getElementById("reviewForm");
+
+            // Open modal when "Review" button is clicked
+            document.querySelectorAll(".review-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                const requestId = this.getAttribute("data-request-id");
+                const citizenId = this.getAttribute("data-citizen-id");
+                const serviceId = this.getAttribute("data-service-id");
+
+                // Populate hidden fields
+                document.getElementById("request_id").value = requestId;
+                document.getElementById("citizen_id").value = citizenId;
+                document.getElementById("service_id").value = serviceId;
+
+                modal.style.display = "flex";
+            });
+            });
+
+            // Close modal
+            closeBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+            });
+
+            window.addEventListener("click", event => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+            });
+
+            // Form submission
+            reviewForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            
+            const formData = new FormData(reviewForm);
+
+            fetch("save_review.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                modal.style.display = "none";
+                reviewForm.reset();
+            })
+            .catch(error => console.error("Error:", error));
+            });
 
        
 

@@ -100,13 +100,13 @@ INSERT INTO services (ServiceType) VALUES ('Citizenship');
 CREATE TABLE `review` (
   `ReviewID` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `RequestID` INT(11) NOT NULL,
-  `UserID` INT(12) NOT NULL,
+  `CitizenID` int(12) NOT NULL,
   `ServiceID` INT(11) NOT NULL,
   `Review` TEXT DEFAULT NULL,
   `DateSubmitted` DATETIME DEFAULT CURRENT_TIMESTAMP,
   
-  FOREIGN KEY (`RequestID`) REFERENCES `servicerequest`(`RequestID`) ON DELETE CASCADE,
   FOREIGN KEY (`UserID`) REFERENCES `users`(`UserID`) ON DELETE CASCADE,
+  FOREIGN KEY (`RequestID`) REFERENCES `servicerequest`(`RequestID`) ON DELETE CASCADE,
   FOREIGN KEY (`ServiceID`) REFERENCES `services`(`ServiceID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
