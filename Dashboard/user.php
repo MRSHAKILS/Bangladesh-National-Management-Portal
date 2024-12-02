@@ -8,11 +8,11 @@ $mysqli = connect();
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(isset($_POST['service_request'])) {
         $request_type = $_POST['service_request'];
-        $username = $_SESSION['username'];
+        $user_id = $_SESSION['user_id'];
 
         if($request_type == 'Passport' || $request_type == 'Transport' || $request_type == 'Citizenship') {
 
-            $sql = "SELECT UserID FROM users WHERE Username = '$username'";
+            $sql = "SELECT UserID FROM users WHERE UserID = '$user_id'";
             $user_id = $mysqli->query($sql)->fetch_assoc()['UserID'];
 
             $sql = "SELECT ServiceID FROM services WHERE ServiceType = '$request_type'";
@@ -24,76 +24,80 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sql = "INSERT INTO servicerequest (CitizenID, ServiceID) VALUES ('$citizen_id', '$service_id')";
             $mysqli->query($sql);
         } 
+    } 
+    else if(isset($_POST['save_user_info'])) {
+        $user_id = $_SESSION['user_id'];
+        $full_name = $mysqli->real_escape_string($_POST['full_name']);
+        $email = $mysqli->real_escape_string($_POST['email']);
+        $username = $mysqli->real_escape_string($_POST['username']);
+        $phone_number = $mysqli->real_escape_string($_POST['phone_number']);
+        $address = $mysqli->real_escape_string($_POST['address']);
+        $city = $mysqli->real_escape_string($_POST['city']);
+        $country = $mysqli->real_escape_string($_POST['country']);
+        $postal_code = $mysqli->real_escape_string($_POST['postal_code']);
+        
+    
+        // Start a transaction
+        $mysqli->begin_transaction();
+
+        try {
+            // Update the users table
+            $update_users_sql = "
+                UPDATE users 
+                SET Email = '$email', Username = '$username' 
+                WHERE UserID = $user_id
+            ";
+            if (!$mysqli->query($update_users_sql)) {
+                throw new Exception("Error updating users table: " . $mysqli->error);
+            }
+    
+            // Update the citizen table
+            $update_citizen_sql = "
+                UPDATE citizen 
+                SET FullName = '$full_name', ContactInfo = '$phone_number', addressPresent = '$address', Nationality = '$country' 
+                WHERE UserID = $user_id
+            ";
+            if (!$mysqli->query($update_citizen_sql)) {
+                throw new Exception("Error updating citizen table: " . $mysqli->error);
+            }
+    
+            // Commit the transaction
+            $mysqli->commit();
+        } catch (Exception $e) {
+            // Rollback the transaction on error
+            $mysqli->rollback();
+            echo "<script>alert('Error updating user information: " . $e->getMessage() . "');</script>";
+        }
+    }
+    else if(isset($_POST['submit_review'])) {
+        $request_id = $_POST['request_id'];
+        $review = $_POST['review'];
+
+        $sql = "SELECT * FROM servicerequest WHERE RequestID = $request_id";
+        $service_request = $mysqli->query($sql)->fetch_assoc();
+
+        $sql = "INSERT INTO review (RequestID, CitizenID, ServiceID, Review) VALUES (".$service_request['RequestID'].", ".$service_request['CitizenID'].", ".$service_request['ServiceID'].", '$review')";
+
+        $mysqli->query($sql);
     }
 } 
 
+//On page load
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users u JOIN Citizen c ON u.UserID = c.UserID WHERE u.UserID = '$user_id'";
+$response = $mysqli->query($sql);
 
+$user_details = $response->fetch_assoc();
 
+if(!isset($user_details['type'])) {
+    header('Location: user_signup_modal.php');
+}
 
+$sql = "SELECT CitizenID FROM citizen WHERE UserID = ". $_SESSION['user_id'];
+$citizen_id = $mysqli->query($sql)->fetch_assoc()['CitizenID'];
 
-        // Edit User Information
-        $user_username = $_SESSION['username'];
-        $sql = "SELECT * FROM users WHERE Username = '$user_username'";
-        $response = $mysqli->query($sql);
-
-        $user_details = $response->fetch_assoc();
-
-        if(!isset($user_details['type'])) {
-            header('Location: user_signup_modal.php');
-        }
-
-        $sql = "SELECT CitizenID FROM citizen WHERE UserID = ". $_SESSION['user_id'];
-        $citizen_id = $mysqli->query($sql)->fetch_assoc()['CitizenID'];
-
-        $sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID JOIN department d ON s.DepartmentID = d.DepartmentID WHERE sr.CitizenID = $citizen_id";
-        $service_requests = $mysqli->query($sql);
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_user_info'])) {
-            $user_id = $_POST['user_id'];
-            $full_name = $mysqli->real_escape_string($_POST['full_name']);
-            $email = $mysqli->real_escape_string($_POST['email']);
-            $username = $mysqli->real_escape_string($_POST['username']);
-            $phone_number = $mysqli->real_escape_string($_POST['phone_number']);
-            $address = $mysqli->real_escape_string($_POST['address']);
-            $city = $mysqli->real_escape_string($_POST['city']);
-            $country = $mysqli->real_escape_string($_POST['country']);
-            $postal_code = $mysqli->real_escape_string($_POST['postal_code']);
-
-            
-        
-            // Start a transaction
-            $mysqli->begin_transaction();
-        
-            try {
-                // Update the users table
-                $update_users_sql = "
-                    UPDATE users 
-                    SET Email = '$email', Username = '$username' 
-                    WHERE UserID = $user_id
-                ";
-                if (!$mysqli->query($update_users_sql)) {
-                    throw new Exception("Error updating users table: " . $mysqli->error);
-                }
-        
-                // Update the citizen table
-                $update_citizen_sql = "
-                    UPDATE citizen 
-                    SET FullName = '$full_name', PhoneNumber = '$phone_number', Address = '$address', City = '$city', Country = '$country', PostalCode = '$postal_code' 
-                    WHERE UserID = $user_id
-                ";
-                if (!$mysqli->query($update_citizen_sql)) {
-                    throw new Exception("Error updating citizen table: " . $mysqli->error);
-                }
-        
-                // Commit the transaction
-                $mysqli->commit();
-                echo "<script>alert('User information updated successfully.');</script>";
-            } catch (Exception $e) {
-                // Rollback the transaction on error
-                $mysqli->rollback();
-                echo "<script>alert('Error updating user information: " . $e->getMessage() . "');</script>";
-            }
-        }
+$sql = "SELECT sr.RequestID, sr.CitizenID, sr.ServiceID, sr.RequestStatus, s.ServiceType, d.DepartmentName, r.Review FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID JOIN department d ON s.DepartmentID = d.DepartmentID LEFT JOIN review r ON r.RequestID = sr.RequestID WHERE sr.CitizenID = $citizen_id ORDER BY sr.RequestID";
+$service_requests = $mysqli->query($sql);
 
 
 ?>
@@ -339,11 +343,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <p><span>Username:</span> <?php echo @$user_details['Username'] ?></p>
                 <p><span>Email:</span> <?php echo @$user_details['Email'] ?></p>
                 <p><span>User Type:</span> <?php echo @$user_details['type'] ?></p>
-                <p><span>Phone Number:</span> <?php echo @$user_details['PhoneNumber'] ?></p>
-                <p><span>Address:</span> <?php echo @$user_details['Address'] ?></p>
-                <p><span>City:</span> <?php echo @$user_details['City'] ?></p>
-                <p><span>Country:</span> <?php echo @$user_details['Country'] ?></p>
-                <p><span>Postal Code:</span> <?php echo @$user_details['PostalCode'] ?></p>
+                <p><span>Phone Number:</span> <?php echo @$user_details['ContactInfo'] ?></p>
+                <p><span>Address:</span> <?php echo @$user_details['addressPermanent'] ?></p>
+                <p><span>Nationality:</span> <?php echo @$user_details['Nationality'] ?></p>
                 <p><span>Notification Preferences:</span> Email, SMS</p>
                 <p><span>Registration Date:</span> <?php echo @$user_details['date_registered'] ?></p>
                 <button onclick="openModal('editUserModal')">Edit</button>
@@ -376,7 +378,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <td>". $service_request['ServiceType'] ."</td>
                                     <td>". $service_request['DepartmentName'] ."</td>
                                     <td>". $service_request['RequestStatus'] ."</td>
-                                    <td><button class='review-btn'>Review</button></td>
+                                    <td>". ($service_request['Review'] == NULL ? "<button class='review-btn' data-request-id=". $service_request['RequestID'] .">Review</button>" : "")."</td>
                                 </tr>
                             ";
                         }
@@ -470,13 +472,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div id="reviewModal" class="modal">
         <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <form id="reviewForm">
+        <form id="reviewForm" method="POST">
             <input type="hidden" name="request_id" id="request_id">
-            <input type="hidden" name="citizen_id" id="citizen_id">
-            <input type="hidden" name="service_id" id="service_id">
             <label for="review">Review:</label><br>
             <textarea name="review" id="review" rows="4" cols="50" required></textarea><br><br>
-            <button type="submit">Submit Review</button>
+            <button type="submit" name="submit_review">Submit Review</button>
         </form>
         </div>
     </div>
@@ -538,10 +538,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             openModal('editUserModal');
             });
 
-
-            $user_username = $_SESSION['username'];
-            $sql = "SELECT * FROM users WHERE Username = '$user_username'";
-
             // <form id="editUserForm" method="post" onsubmit="return validateForm()">
 
             function validateForm() {
@@ -566,13 +562,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             document.querySelectorAll(".review-btn").forEach(button => {
             button.addEventListener("click", function () {
                 const requestId = this.getAttribute("data-request-id");
-                const citizenId = this.getAttribute("data-citizen-id");
-                const serviceId = this.getAttribute("data-service-id");
 
                 // Populate hidden fields
                 document.getElementById("request_id").value = requestId;
-                document.getElementById("citizen_id").value = citizenId;
-                document.getElementById("service_id").value = serviceId;
 
                 modal.style.display = "flex";
             });
@@ -588,32 +580,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 modal.style.display = "none";
             }
             });
-
-            // Form submission
-            reviewForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-            
-            const formData = new FormData(reviewForm);
-
-            fetch("save_review.php", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert(data);
-                modal.style.display = "none";
-                reviewForm.reset();
-            })
-            .catch(error => console.error("Error:", error));
-            });
-
-       
-
-       
-
-
-
 
         </script>
 </body>

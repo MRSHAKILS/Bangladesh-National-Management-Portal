@@ -1,5 +1,7 @@
 <?php
     require_once 'includes/db.php';
+
+    $mysqli = connect();
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +53,7 @@
                   JOIN servicerequest sr ON r.RequestID = sr.RequestID
                   ORDER BY r.DateSubmitted DESC";
 
-        $result = $conn->query($query);
+        $result = $mysqli->query($query);
 
         // Check if there are reviews
         if ($result->num_rows > 0) {
@@ -71,7 +73,7 @@
         }
 
         // Close the database connection
-        $conn->close();
+        $mysqli->close();
         ?>
     </div>
 </body>

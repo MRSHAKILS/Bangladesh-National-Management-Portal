@@ -105,11 +105,9 @@ CREATE TABLE `review` (
   `Review` TEXT DEFAULT NULL,
   `DateSubmitted` DATETIME DEFAULT CURRENT_TIMESTAMP,
   
-  FOREIGN KEY (`UserID`) REFERENCES `users`(`UserID`) ON DELETE CASCADE,
+  FOREIGN KEY (`CitizenID`) REFERENCES `citizen`(`CitizenID`) ON DELETE CASCADE,
   FOREIGN KEY (`RequestID`) REFERENCES `servicerequest`(`RequestID`) ON DELETE CASCADE,
   FOREIGN KEY (`ServiceID`) REFERENCES `services`(`ServiceID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
 
 

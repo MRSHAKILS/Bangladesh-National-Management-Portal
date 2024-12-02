@@ -17,29 +17,37 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
-$sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID JOIN department d ON s.DepartmentID = d.DepartmentID WHERE RequestStatus <> 'Approved'";
-$service_requests = $mysqli->query($sql);
+if(isset($_GET['search_query'])) {
 
     // searchbar
-
+    
     $search_query = isset($_GET['search_query']) ? $mysqli->real_escape_string($_GET['search_query']) : '';
-
+    
     // Base SQL query
     $sql = "SELECT * FROM serviceRequest sr 
             JOIN services s ON sr.ServiceID = s.ServiceID 
             JOIN department d ON s.DepartmentID = d.DepartmentID 
-            WHERE RequestStatus <> 'Approved'";
-
-    // Modify the query if a search term is provided
-    if (!empty($search_query)) {
-        $sql .= " AND (s.ServiceType LIKE '%$search_query%' OR 
+            WHERE sr.RequestStatus <> 'Pending' AND sr.RequestStatus <> 'Approved'
+            AND (s.ServiceType LIKE '%$search_query%' OR 
                     d.DepartmentName LIKE '%$search_query%' OR 
                     sr.CitizenID LIKE '%$search_query%' OR
                     sr.RequestID LIKE '%$search_query%')";
-    }
-
+    
+    // // Modify the query if a search term is provided
+    // if (!empty($search_query)) {
+    //     $sql .= " 
+    //                 WHERE sr.RequestStatus <> 'Pending' AND sr.RequestStatus <> 'Approved'";
+    // }
+    
     $service_requests = $mysqli->query($sql);
+}
+else {
+
+    $sql = "SELECT * FROM serviceRequest sr JOIN services s ON sr.ServiceID = s.ServiceID JOIN department d ON s.DepartmentID = d.DepartmentID WHERE sr.RequestStatus <> 'Pending' AND sr.RequestStatus <> 'Approved'";
+    $service_requests = $mysqli->query($sql);
+}
+
+
 
 ?>
 

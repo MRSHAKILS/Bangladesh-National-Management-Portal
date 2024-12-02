@@ -343,7 +343,7 @@
               <?php
               $currentPage = basename($_SERVER['PHP_SELF']);
               if (in_array($currentPage, ['user.php', 'official_request_table.php', 'admin_request_table.php'])) {
-                  echo '<button class="ui-btn" onclick="window.location.href=\'dashboard.php\';"><span> Sign out</span></button>';
+                  echo '<button class="ui-btn" onclick="window.location.href=\'logout.php\';"><span> Sign out</span></button>';
               }
               ?>
         </nav>
