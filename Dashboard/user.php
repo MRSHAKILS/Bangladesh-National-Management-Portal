@@ -31,9 +31,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $mysqli->real_escape_string($_POST['email']);
         $username = $mysqli->real_escape_string($_POST['username']);
         $phone_number = $mysqli->real_escape_string($_POST['ContactInfo']);
-        $address = $mysqli->real_escape_string($_POST['address']);
-        $country = $mysqli->real_escape_string($_POST['country']);
-        $postal_code = $mysqli->real_escape_string($_POST['postal_code']);
+        $address = $mysqli->real_escape_string($_POST['addressPresent']);
+        $country = $mysqli->real_escape_string($_POST['Nationality']);
         
     
         // Start a transaction
@@ -419,22 +418,18 @@ $service_requests = $mysqli->query($sql);
                     </p>
                     <p>
                         <label for="editPhoneNumber">Phone Number:</label>
-                        <input type="text" id="editPhoneNumber" name="ContactInfo" value="<?php echo @$user_details['PhoneNumber']; ?>">
+                        <input type="text" id="editPhoneNumber" name="ContactInfo" value="<?php echo @$user_details['ContactInfo']; ?>">
                     </p>
                     <p>
                         <label for="editAddress">Address:</label>
-                        <input type="text" id="editAddress" name="addressPresent" value="<?php echo @$user_details['Address']; ?>">
+                        <input type="text" id="editAddress" name="addressPresent" value="<?php echo @$user_details['addressPresent']; ?>">
                     </p>
                     
                     <p>
                         <label for="editCountry">Country:</label>
-                        <input type="text" id="editCountry" name="Nationality" value="<?php echo @$user_details['Country']; ?>">    
+                        <input type="text" id="editCountry" name="Nationality" value="<?php echo @$user_details['Nationality']; ?>">    
                     </p>
-                    <p>
-                        <label for="editPostalCode">Postal Code:</label>
-                        <input type="text" id="editPostalCode" name="postal_code" value="<?php echo @$user_details['PostalCode']; ?>">
-                    </p>
-
+                    
                     
                     <button type="submit" name="save_user_info">Update</button>
                     <button type="button" onclick="closeModal('editUserModal')">Cancel</button>
