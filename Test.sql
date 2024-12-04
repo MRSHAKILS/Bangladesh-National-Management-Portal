@@ -5,7 +5,7 @@ SET time_zone = "+00:00";
 
 -- Database: `bdportal`
 
--- Table structure for table `citizen` 
+-- Table structure for table `citizen`  
 
 
 CREATE TABLE `citizen` (
