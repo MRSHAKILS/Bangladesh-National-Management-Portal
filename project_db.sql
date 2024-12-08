@@ -111,3 +111,51 @@ CREATE TABLE `review` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
+
+CREATE TABLE `servicefeedback` (
+  `FeedbackID` int(11) NOT NULL,
+  `RequestID` int(11) NOT NULL,
+  `FeedbackDate` date DEFAULT NULL,
+  `Comments` text DEFAULT NULL,
+  `Rating` int(11) DEFAULT NULL CHECK (`Rating` between 1 and 5),
+  `FinalDocumentIssued` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `pendingrequest` (
+  `RequestID` int(11) NOT NULL,
+  `SubmissionDate` date DEFAULT NULL,
+  `LastUpdatedDate` date DEFAULT NULL,
+  `DepartmentInCharge` int(11) DEFAULT NULL,
+  `FollowUpRequirement` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `notifications` (
+  `NotificationID` int(11) NOT NULL,
+  `UserID` int(12) NOT NULL,
+  `Message` text DEFAULT NULL,
+  `NotificationType` varchar(50) DEFAULT NULL,
+  `DateSent` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE `nid_card` (
+  `NID` int(11) NOT NULL,
+  `CitizenID` int(12) NOT NULL,
+  `FathersName` varchar(100) DEFAULT NULL,
+  `MothersName` varchar(100) DEFAULT NULL,
+  `DateOfIssue` date DEFAULT NULL,
+  `ExpiryDate` date DEFAULT NULL,
+  `BloodType` char(3) DEFAULT NULL,
+  `PlaceOfBirth` varchar(100) DEFAULT NULL,
+  `Signature` blob DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+CREATE TABLE `completedrequest` (
+  `RequestID` int(11) NOT NULL,
+  `CompletionDate` date DEFAULT NULL,
+  `ApprovalStatus` varchar(50) DEFAULT NULL,
+  `ResolutionSummary` text DEFAULT NULL,
+  `FinalProcessing` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
