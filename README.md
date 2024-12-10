@@ -98,7 +98,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 For any inquiries or contributions, please reach out:
-- Shakil Ahmed: [shakil@example.com](mailto:work.ahmedshakil@gmail.com)
+- Shakil Ahmed: [work.ahmedshakil@gmail.com](mailto:work.ahmedshakil@gmail.com)
 
 ---
 
