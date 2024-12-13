@@ -35,6 +35,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $country = $mysqli->real_escape_string($_POST['Nationality']);
         
     
+
+        
         // Start a transaction
         $mysqli->begin_transaction();
 
