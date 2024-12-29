@@ -8,6 +8,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `citizen`  
 
 
+
+
 CREATE TABLE `citizen` (
   `CitizenID` int(12) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `UserID` int(12) NOT NULL,
